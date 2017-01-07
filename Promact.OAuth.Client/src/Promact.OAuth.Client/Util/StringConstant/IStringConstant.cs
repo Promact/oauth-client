@@ -85,5 +85,88 @@
         /// </summary>
         string AccessTokenNotMatchedException { get; }
         #endregion
+
+        #region Test Cases
+        /// <summary>
+        /// Ramdon access token for test cases
+        /// </summary>
+        string AccessTokenForTest { get; }
+        /// <summary>
+        /// Random user Id for test cases
+        /// </summary>
+        string UserIdForTest { get; }
+        /// <summary>
+        /// Random slack user Id for test cases
+        /// </summary>
+        string SlackUserIdForTest { get; }
+        /// <summary>
+        /// Random slack group name for test
+        /// </summary>
+        string SlackGroupNameForTest { get; }
+        /// <summary>
+        /// Random project Id for test cases
+        /// </summary>
+        string ProjectIdForTest { get; }
+        /// <summary>
+        /// GetListOfPromactManagementDetailsAsync Random Value For Test cases
+        /// </summary>
+        string GetListOfPromactManagementDetailsAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetListOfPromactTeamLeaderByUsersSlackIdAsync Random Value For Test cases
+        /// </summary>
+        string GetListOfPromactTeamLeaderByUsersSlackIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactAllProjectsAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactAllProjectsAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactListOfUsersDetailsByTeamLeaderIdAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactListOfUsersDetailsByTeamLeaderIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactListOfUserDetailsBySlackGroupNameAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactListOfUserDetailsBySlackGroupNameAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactProjectDetailsByGroupNameAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactProjectDetailsByGroupNameAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactProjectDetailsByIdAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactProjectDetailsByIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactTeamMembersDetailsByUserIdAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactTeamMembersDetailsByUserIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactUserDetailByIdAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactUserDetailByIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactUserDetailBySlackUserIdAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactUserDetailBySlackUserIdAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactUserIsAdminOrNotAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactUserIsAdminOrNotAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactUserLeaveAllowedDetailsAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactUserLeaveAllowedDetailsAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// GetPromactUserRoleAsync Random Value For Test cases
+        /// </summary>
+        string GetPromactUserRoleAsyncRandomValueForTest { get; }
+        /// <summary>
+        /// Random name of project for test
+        /// </summary>
+        string RandomProjectNameForTest { get; }
+        /// <summary>
+        /// HtttpRequestException error message for test
+        /// </summary>
+        string HttpRequestExceptionErrorMessageForTest { get; }
+        #endregion
     }
 }
