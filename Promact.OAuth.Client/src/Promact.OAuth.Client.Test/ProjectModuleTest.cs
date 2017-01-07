@@ -12,6 +12,8 @@ using System;
 using Promact.OAuth.Client.Util.ExceptionHandler;
 using System.Security.Authentication;
 using System.Net.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Promact.OAuth.Client.Test
 {
@@ -21,6 +23,10 @@ namespace Promact.OAuth.Client.Test
         private readonly IProjectModule _projectModule;
         private readonly Mock<IHttpClientService> _mockHttpClientService;
         private readonly IStringConstant _stringConstant;
+        User user = new User();
+        List<User> userList = new List<User>();
+        Project project = new Project();
+        List<Project> projectList = new List<Project>();
         #endregion
 
         #region Constructor
@@ -29,6 +35,7 @@ namespace Promact.OAuth.Client.Test
             _projectModule = serviceProvider.GetService<IProjectModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
             _mockHttpClientService = serviceProvider.GetService<Mock<IHttpClientService>>();
+            Initialize();
         }
         #endregion
 
@@ -41,7 +48,7 @@ namespace Promact.OAuth.Client.Test
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByGroupNameUrl,
                 _stringConstant.SlackGroupNameForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactProjectDetailsByGroupNameAsyncRandomValueForTest,
+            MockingHttpClientService(contentUrl, SerializationOfProject(),
                 HttpStatusCode.OK);
             var expertedResult = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest,
                 _stringConstant.AccessTokenForTest);
@@ -58,7 +65,7 @@ namespace Promact.OAuth.Client.Test
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByGroupNameUrl,
                 _stringConstant.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
-            var expertedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(()=>
+            var expertedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
                  _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest,
                      _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expertedResult.Message);
@@ -87,8 +94,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactAllProjectsAsync()
         {
-            MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl,
-                _stringConstant.GetPromactAllProjectsAsyncRandomValueForTest, HttpStatusCode.OK);
+            MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, SerializationOfListOfProject(), HttpStatusCode.OK);
             var expected = await _projectModule.GetPromactAllProjectsAsync(_stringConstant.AccessTokenForTest);
             Assert.Equal(true, expected.Any());
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
@@ -145,8 +151,7 @@ namespace Promact.OAuth.Client.Test
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
                 Convert.ToInt32(_stringConstant.ProjectIdForTest));
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactProjectDetailsByIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfProject(), HttpStatusCode.OK);
             var expectedResult = await _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest),
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(_stringConstant.UserIdForTest, expectedResult.TeamLeaderId);
@@ -216,6 +221,54 @@ namespace Promact.OAuth.Client.Test
             requestAndResponse.Status = expectedStatus;
             var result = Task.FromResult(requestAndResponse);
             _mockHttpClientService.Setup(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl)).Returns(result);
+        }
+        #endregion
+
+        #region Initialisation
+        /// <summary>
+        /// Intialization at run time
+        /// </summary>
+        public void Initialize()
+        {
+            user.Email = _stringConstant.EmailRandomValueForTest;
+            user.Id = _stringConstant.UserIdForTest;
+            user.IsActive = true;
+            user.NumberOfCasualLeave = 9;
+            user.NumberOfSickLeave = 4;
+            user.SlackUserId = _stringConstant.SlackUserIdForTest;
+            user.UserName = _stringConstant.EmailRandomValueForTest;
+            userList.Add(user);
+            project.CreatedDate = DateTime.UtcNow;
+            project.CreatedBy = _stringConstant.UserIdForTest;
+            project.Id = 1;
+            project.IsActive = true;
+            project.Name = _stringConstant.RandomProjectNameForTest;
+            project.SlackChannelName = _stringConstant.RandomProjectNameForTest;
+            project.TeamLeader = user;
+            project.TeamLeaderId = _stringConstant.UserIdForTest;
+            project.UpdatedBy = _stringConstant.UserIdForTest;
+            project.UpdatedDate = DateTime.UtcNow;
+            project.ApplicationUsers = userList;
+            projectList.Add(project);
+        }
+        #endregion
+
+        #region Serialization
+        /// <summary>
+        /// Method used to serialize project object in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfProject()
+        {
+            return JsonConvert.SerializeObject(project);
+        }
+        /// <summary>
+        /// Method used to serialize list of project in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfListOfProject()
+        {
+            return JsonConvert.SerializeObject(projectList);
         }
         #endregion
     }

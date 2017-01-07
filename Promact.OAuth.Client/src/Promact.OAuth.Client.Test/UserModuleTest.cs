@@ -13,6 +13,7 @@ using Promact.OAuth.Client.Util.HttpClientWrapper;
 using System.Security.Authentication;
 using System.Net.Http;
 using Promact.OAuth.Client.Util.ExceptionHandler;
+using Newtonsoft.Json;
 
 namespace Promact.OAuth.Client.Test
 {
@@ -22,6 +23,11 @@ namespace Promact.OAuth.Client.Test
         private readonly IUserModule _userModule;
         private readonly IStringConstant _stringConstant;
         private readonly Mock<IHttpClientService> _mockHttpClientService;
+        User user = new User();
+        List<User> userList = new List<User>();
+        UserRole userRole = new UserRole();
+        List<UserRole> userRoleList = new List<UserRole>();
+        LeaveAllowed leaveAllowed = new LeaveAllowed();
         #endregion
 
         #region Constructor
@@ -30,6 +36,7 @@ namespace Promact.OAuth.Client.Test
             _userModule = serviceProvider.GetService<IUserModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
             _mockHttpClientService = serviceProvider.GetService<Mock<IHttpClientService>>();
+            Initialize();
         }
         #endregion
 
@@ -41,8 +48,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactUserDetailBySlackUserIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.SlackUserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactUserDetailBySlackUserIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfUser(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.SlackUserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(_stringConstant.UserIdForTest, expectedResult.Id);
@@ -99,8 +105,7 @@ namespace Promact.OAuth.Client.Test
         {
             var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, 
                 _stringConstant.SlackUserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfListOfUser(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.SlackUserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
@@ -155,8 +160,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetListOfPromactManagementDetailsAsync()
         {
-            MockingHttpClientService(_stringConstant.GetListOfPromactManagementDetailsUrl, 
-                _stringConstant.GetListOfPromactManagementDetailsAsyncRandomValueForTest, HttpStatusCode.OK);
+            MockingHttpClientService(_stringConstant.GetListOfPromactManagementDetailsUrl, SerializationOfListOfUser(), 
+                HttpStatusCode.OK);
             var expectedResult = await _userModule.GetListOfPromactManagementDetailsAsync(_stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, 
@@ -212,8 +217,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactUserLeaveAllowedDetailsAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.SlackUserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactUserLeaveAllowedDetailsAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfLeaveAllowed(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.SlackUserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(Convert.ToInt32(_stringConstant.CasualLeaveForTest), expectedResult.CasualLeave);
@@ -269,8 +273,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactUserIsAdminOrNotAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.SlackUserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactUserIsAdminOrNotAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, true.ToString().ToLower(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.SlackUserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult);
@@ -326,8 +329,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactUserDetailByIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactUserDetailByIdUrl, _stringConstant.UserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactUserDetailByIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfUser(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactUserDetailByIdAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(_stringConstant.EmailRandomValueForTest, expectedResult.Email);
@@ -383,8 +385,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactUserRoleAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactUserRoleUrl, _stringConstant.UserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactUserRoleAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfListOfUserRole(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactUserRoleAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
@@ -440,8 +441,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactTeamMembersDetailsByUserIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactTeamMembersDetailsByUserIdUrl, _stringConstant.UserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactTeamMembersDetailsByUserIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfListOfUserRole(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
@@ -497,8 +497,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactListOfUserDetailsBySlackGroupNameAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectUserByGroupNameUrl, _stringConstant.SlackGroupNameForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactListOfUserDetailsBySlackGroupNameAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfListOfUser(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.SlackGroupNameForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
@@ -540,8 +539,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactListOfUsersDetailsByTeamLeaderIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactListOfUsersDetailsByTeamLeaderIdUrl, _stringConstant.UserIdForTest);
-            MockingHttpClientService(contentUrl, _stringConstant.GetPromactListOfUsersDetailsByTeamLeaderIdAsyncRandomValueForTest,
-                HttpStatusCode.OK);
+            MockingHttpClientService(contentUrl, SerializationOfListOfUser(), HttpStatusCode.OK);
             var expectedResult = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
@@ -605,6 +603,66 @@ namespace Promact.OAuth.Client.Test
             requestAndResponse.Status = expectedStatus;
             var result = Task.FromResult(requestAndResponse);
             _mockHttpClientService.Setup(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl)).Returns(result);
+        }
+        #endregion
+
+        #region Initialisation
+        /// <summary>
+        /// Intialization at run time
+        /// </summary>
+        public void Initialize()
+        {
+            user.Email = _stringConstant.EmailRandomValueForTest;
+            user.Id = _stringConstant.UserIdForTest;
+            user.IsActive = true;
+            user.NumberOfCasualLeave = 9;
+            user.NumberOfSickLeave = 6;
+            user.SlackUserId = _stringConstant.SlackUserIdForTest;
+            user.UserName = _stringConstant.EmailRandomValueForTest;
+            userList.Add(user);
+            userRole.UserName = _stringConstant.EmailRandomValueForTest;
+            userRole.UserId = _stringConstant.UserIdForTest;
+            userRoleList.Add(userRole);
+            leaveAllowed.CasualLeave = 9;
+            leaveAllowed.SickLeave = 6;
+        }
+        #endregion
+
+        #region Serialization
+        /// <summary>
+        /// Method used to serialize user object in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfUser()
+        {
+            return JsonConvert.SerializeObject(user);
+        }
+
+        /// <summary>
+        /// Method used to serialize list of user in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfListOfUser()
+        {
+            return JsonConvert.SerializeObject(userList);
+        }
+
+        /// <summary>
+        /// Method used to serialize list of userRole in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfListOfUserRole()
+        {
+            return JsonConvert.SerializeObject(userRoleList);
+        }
+
+        /// <summary>
+        /// Method used to serialize leaveAllowed in json string
+        /// </summary>
+        /// <returns>json string of project</returns>
+        private string SerializationOfLeaveAllowed()
+        {
+            return JsonConvert.SerializeObject(leaveAllowed);
         }
         #endregion
     }

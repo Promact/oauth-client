@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Promact.OAuth.Client.DomainModel
 {
@@ -40,7 +41,7 @@ namespace Promact.OAuth.Client.DomainModel
         /// <summary>
         /// Project created on date
         /// </summary>
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// If any update in project then by whom it's updated, user Id
@@ -50,7 +51,7 @@ namespace Promact.OAuth.Client.DomainModel
         /// <summary>
         /// If any update in project then by date of update
         /// </summary>
-        public string UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
         /// <summary>
         /// Team leader details
