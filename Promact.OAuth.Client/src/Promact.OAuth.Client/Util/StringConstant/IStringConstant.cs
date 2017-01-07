@@ -167,6 +167,14 @@
         /// HtttpRequestException error message for test
         /// </summary>
         string HttpRequestExceptionErrorMessageForTest { get; }
+        /// <summary>
+        /// Casual leave random value for test
+        /// </summary>
+        string CasualLeaveForTest { get; }
+        /// <summary>
+        /// Random email address for test case
+        /// </summary>
+        string EmailRandomValueForTest { get; }
         #endregion
     }
 }

@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using Promact.OAuth.Client.Util.ExceptionHandler;
 using System.Security.Authentication;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Promact.OAuth.Client.Test
@@ -203,7 +202,7 @@ namespace Promact.OAuth.Client.Test
         }
         #endregion
 
-        #region Private Method
+        #region Mocking
         /// <summary>
         /// Private method to mock http client service and result expected result
         /// </summary>

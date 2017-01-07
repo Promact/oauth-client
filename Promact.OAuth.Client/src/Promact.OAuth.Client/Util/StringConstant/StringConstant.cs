@@ -429,6 +429,28 @@
                 return "Exception of type 'System.Net.Http.HttpRequestException' was thrown.";
             }
         }
+
+        /// <summary>
+        /// Casual leave random value for test
+        /// </summary>
+        public string CasualLeaveForTest
+        {
+            get
+            {
+                return "9";
+            }
+        }
+
+        /// <summary>
+        /// Random email address for test case
+        /// </summary>
+        public string EmailRandomValueForTest
+        {
+            get
+            {
+                return "siddhartha@promactinfo.com";
+            }
+        }
         #endregion
     }
 }
