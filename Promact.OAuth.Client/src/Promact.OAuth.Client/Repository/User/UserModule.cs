@@ -13,7 +13,7 @@ namespace Promact.OAuth.Client.Repository.User
     /// <summary>
     /// User Module of OAuth APIs
     /// </summary>
-    public class UserModule
+    public class UserModule : IUserModule
     {
         #region Private Variables
         private IHttpClientService _httpClient;

@@ -85,5 +85,44 @@
         /// </summary>
         string AccessTokenNotMatchedException { get; }
         #endregion
+
+        #region Test Cases
+        /// <summary>
+        /// Ramdon access token for test cases
+        /// </summary>
+        string AccessTokenForTest { get; }
+        /// <summary>
+        /// Random user Id for test cases
+        /// </summary>
+        string UserIdForTest { get; }
+        /// <summary>
+        /// Random slack user Id for test cases
+        /// </summary>
+        string SlackUserIdForTest { get; }
+        /// <summary>
+        /// Random slack group name for test
+        /// </summary>
+        string SlackGroupNameForTest { get; }
+        /// <summary>
+        /// Random project Id for test cases
+        /// </summary>
+        string ProjectIdForTest { get; }
+        /// <summary>
+        /// Random name of project for test
+        /// </summary>
+        string RandomProjectNameForTest { get; }
+        /// <summary>
+        /// HtttpRequestException error message for test
+        /// </summary>
+        string HttpRequestExceptionErrorMessageForTest { get; }
+        /// <summary>
+        /// Casual leave random value for test
+        /// </summary>
+        string CasualLeaveForTest { get; }
+        /// <summary>
+        /// Random email address for test case
+        /// </summary>
+        string EmailRandomValueForTest { get; }
+        #endregion
     }
 }

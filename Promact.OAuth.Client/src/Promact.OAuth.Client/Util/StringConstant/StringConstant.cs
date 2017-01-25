@@ -208,5 +208,106 @@
             }
         }
         #endregion
+
+        #region Test Cases
+        /// <summary>
+        /// Ramdon access token for test cases
+        /// </summary>
+        public string AccessTokenForTest
+        {
+            get
+            {
+                return "a0a21d71-9f21-41e7-9904-aabe57599554";
+            }
+        }
+
+        /// <summary>
+        /// Random user Id for test cases
+        /// </summary>
+        public string UserIdForTest
+        {
+            get
+            {
+                return "7092802a-206e-4ce4-8192-f086a1ec1fb6";
+            }
+        }
+
+        /// <summary>
+        /// Random slack user Id for test cases
+        /// </summary>
+        public string SlackUserIdForTest
+        {
+            get
+            {
+                return "U0HJKJ4";
+            }
+        }
+
+        /// <summary>
+        /// Random slack group name for test
+        /// </summary>
+        public string SlackGroupNameForTest
+        {
+            get
+            {
+                return "OAuth-Test";
+            }
+        }
+
+        /// <summary>
+        /// Random project Id for test cases
+        /// </summary>
+        public string ProjectIdForTest
+        {
+            get
+            {
+                return "1";
+            }
+        }
+
+        /// <summary>
+        /// Random name of project for test
+        /// </summary>
+        public string RandomProjectNameForTest
+        {
+            get
+            {
+                return "something";
+            }
+        }
+
+        /// <summary>
+        /// HtttpRequestException error message for test
+        /// </summary>
+        public string HttpRequestExceptionErrorMessageForTest
+        {
+            get
+            {
+                return "Exception of type 'System.Net.Http.HttpRequestException' was thrown.";
+            }
+        }
+
+        /// <summary>
+        /// Casual leave random value for test
+        /// </summary>
+        public string CasualLeaveForTest
+        {
+            get
+            {
+                return "9";
+            }
+        }
+
+        /// <summary>
+        /// Random email address for test case
+        /// </summary>
+        public string EmailRandomValueForTest
+        {
+            get
+            {
+                return "siddhartha@promactinfo.com";
+            }
+        }
+        #endregion
     }
 }

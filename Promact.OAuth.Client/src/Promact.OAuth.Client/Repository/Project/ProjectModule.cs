@@ -78,7 +78,7 @@ namespace Promact.OAuth.Client.Repository.Project
             else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
                 throw new HttpRequestException(result.ResponseContent);
             else
-                throw new Util.ExceptionHandler.ProjectNotFoundException(_stringConstant.ProjectNotFoundException);
+                throw new ProjectNotFoundException(_stringConstant.ProjectNotFoundException);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Promact.OAuth.Client.Repository.Project
             else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
                 throw new HttpRequestException(result.ResponseContent);
             else
-                throw new Util.ExceptionHandler.ProjectNotFoundException(_stringConstant.ProjectNotFoundException);
+                throw new ProjectNotFoundException(_stringConstant.ProjectNotFoundException);
         }
         #endregion
     }
