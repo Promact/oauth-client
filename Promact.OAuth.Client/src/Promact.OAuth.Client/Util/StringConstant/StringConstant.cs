@@ -26,7 +26,7 @@
         {
             get
             {
-                return "api/OAuthResponse/managements";
+                return "api/users/managements";
             }
         }
 
@@ -37,7 +37,7 @@
         {
             get
             {
-                return "api/OAuthResponse/teamLeaders/{0}";
+                return "api/users/teamLeaders/{0}";
             }
         }
 
@@ -48,7 +48,7 @@
         {
             get
             {
-                return "api/OAuthResponse/user/{0}";
+                return "api/users/user/{0}";
             }
         }
 
@@ -59,7 +59,7 @@
         {
             get
             {
-                return "api/OAuthResponse/leaveAllowed/{0}";
+                return "api/users/leaveAllowed/{0}";
             }
         }
 
@@ -70,7 +70,7 @@
         {
             get
             {
-                return "api/OAuthResponse/userIsAdmin/{0}";
+                return "api/users/userIsAdmin/{0}";
             }
         }
 
@@ -81,7 +81,7 @@
         {
             get
             {
-                return "api/User/{0}/detail";
+                return "api/users/{0}/detail";
             }
         }
 
@@ -92,7 +92,7 @@
         {
             get
             {
-                return "api/user/{0}/role";
+                return "api/users/{0}/role";
             }
         }
 
@@ -103,7 +103,7 @@
         {
             get
             {
-                return "api/user/{0}/teammebers";
+                return "api/users/{0}/teammebers";
             }
         }
 
@@ -114,7 +114,7 @@
         {
             get
             {
-                return "api/user/slackChannel/{0}";
+                return "api/users/slackChannel/{0}";
             }
         }
 
@@ -125,7 +125,7 @@
         {
             get
             {
-                return "api/User/{0}/project";
+                return "api/users/{0}/project";
             }
         }
 
@@ -147,7 +147,7 @@
         {
             get
             {
-                return "api/Project/list";
+                return "api/project/list";
             }
         }
 
@@ -158,7 +158,7 @@
         {
             get
             {
-                return "api/Project/{0}/detail";
+                return "api/project/{0}/detail";
             }
         }
         #endregion

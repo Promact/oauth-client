@@ -51,7 +51,7 @@ namespace Promact.OAuth.Client.DomainModel
         /// <summary>
         /// If any update in project then by date of update
         /// </summary>
-        public DateTime UpdatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
         /// <summary>
         /// Team leader details
