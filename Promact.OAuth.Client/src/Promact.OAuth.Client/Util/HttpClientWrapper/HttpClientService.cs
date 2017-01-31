@@ -45,7 +45,7 @@ namespace Promact.OAuth.Client.Util.HttpClientWrapper
                 // Added access token to request header if provided by user
                 if (!String.IsNullOrEmpty(accessToken))
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(accessToken);
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 }
                 var response = await _httpClient.GetAsync(contentUrl);
                 requestResponse.Status = response.StatusCode;
