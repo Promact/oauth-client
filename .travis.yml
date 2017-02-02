@@ -1,7 +1,7 @@
 language: csharp
 os: linux		
 dist: trusty
-mono: none
+mono: latest
 sudo: required
 dotnet: 1.0.0-preview2-1-003177
 install:
