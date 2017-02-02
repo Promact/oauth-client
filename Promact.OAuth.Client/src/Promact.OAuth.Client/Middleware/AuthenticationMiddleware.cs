@@ -24,6 +24,7 @@ namespace Promact.OAuth.Client.Middleware
         /// <returns>Then updated Owin.IAppBuilder</returns>
         public static IAppBuilder UsePromactAuthentication(this IAppBuilder app, PromactAuthenticationOptions options)
         {
+            var allowedScopes = string.Join(" ", options.AllowedScopes);
             IStringConstant _stringConstant = new StringConstant();
             var openIdConnectAuthenticationOptions = new OpenIdConnectAuthenticationOptions();
             openIdConnectAuthenticationOptions.Authority = options.Authority;
@@ -31,7 +32,7 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnectAuthenticationOptions.ClientSecret = options.ClientSecret;
             openIdConnectAuthenticationOptions.RedirectUri = options.RedirectUrl;
             openIdConnectAuthenticationOptions.ResponseType = _stringConstant.ResponseTypeCodeAndIdToken;
-            openIdConnectAuthenticationOptions.Scope = "openid offline_access email profile slack_user_id user_read project_read";
+            openIdConnectAuthenticationOptions.Scope = allowedScopes;
             openIdConnectAuthenticationOptions.SignInAsAuthenticationType = _stringConstant.SignInSchemeCookies;
             openIdConnectAuthenticationOptions.AuthenticationType = _stringConstant.OIDCAuthenticationScheme;
             openIdConnectAuthenticationOptions.PostLogoutRedirectUri = options.LogoutUrl;
