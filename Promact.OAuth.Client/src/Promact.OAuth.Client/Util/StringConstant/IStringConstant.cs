@@ -124,5 +124,22 @@
         /// </summary>
         string EmailRandomValueForTest { get; }
         #endregion
+
+        #region Middleware Pipeline
+        /// <summary>
+        /// OIDC authentication-scheme
+        /// </summary>
+        string OIDCAuthenticationScheme { get; }
+
+        /// <summary>
+        /// SignIn-scheme cookies
+        /// </summary>
+        string SignInSchemeCookies { get; }
+
+        /// <summary>
+        /// Response type code, id_token and token
+        /// </summary>
+        string ResponseTypeCodeAndIdToken { get; }
+        #endregion
     }
 }
