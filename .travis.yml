@@ -15,3 +15,10 @@ notifications:
     on_failure: always
 script:
 - dotnet build ./Promact.OAuth.Client/src/Promact.OAuth.Client -c Release
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - cd Promact.OAuth.Client && nuget pack Promact.OAuth.Client.nuspec -Version 1.0.0 -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
+  on:
+    branch: dev
