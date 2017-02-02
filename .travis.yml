@@ -30,5 +30,5 @@ script:
   - if [ -n "${DOTNETCORE}" ]; then 
       dotnet build && dotnet test; 
     else 
-      nuget restore ./Promact.OAuth.Client/Promact.OAuth.Client.sln && xbuild ./Promact.OAuth.Client/Promact.OAuth.Client.sln 
+      nuget restore ./Promact.OAuth.Client/Promact.OAuth.Client.sln && xbuild ./Promact.OAuth.Client/Promact.OAuth.Client.sln; 
     fi  
