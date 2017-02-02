@@ -1,14 +1,22 @@
 {
   "version": "1.0.0-*",
   "dependencies": {
+    "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.1.0",
     "NETStandard.Library": "1.6.1",
-    "Newtonsoft.Json": "9.0.2-beta2",
-    "System.Net.Security": "4.3.0"
+    "Newtonsoft.Json": "9.0.2-beta1",
+    "System.Net.Security": "4.0.0"
   },
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
-    }    
+    },
+    "net461": {
+      "dependencies": {
+        "Microsoft.Owin.Security.Cookies": "3.0.1",
+        "Microsoft.Owin.Security.OpenIdConnect": "3.0.1",
+        "Owin": "1.0.0"
+      }
+    }
   },
   "buildOptions": {
     "xmlDoc": true

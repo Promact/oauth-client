@@ -309,5 +309,40 @@
             }
         }
         #endregion
+
+        #region Middleware Pipeline
+        /// <summary>
+        /// OIDC authentication-scheme
+        /// </summary>
+        public string OIDCAuthenticationScheme
+        {
+            get
+            {
+                return "oidc";
+            }
+        }
+
+        /// <summary>
+        /// SignIn-scheme cookies
+        /// </summary>
+        public string SignInSchemeCookies
+        {
+            get
+            {
+                return "Cookies";
+            }
+        }
+
+        /// <summary>
+        /// Response type code, id_token and token
+        /// </summary>
+        public string ResponseTypeCodeAndIdToken
+        {
+            get
+            {
+                return "code id_token token";
+            }
+        }
+        #endregion
     }
 }
