@@ -27,4 +27,8 @@ notifications:
     on_success: change
     on_failure: always
 script:
-  - if [ -n "${DOTNETCORE}" ]; then dotnet build && dotnet test; else nuget restore ./Promact.OAuth.Client/Promact.OAuth.Client.sln && xbuild ./Promact.OAuth.Client/Promact.OAuth.Client.sln fi  
+  - if [ -n "${DOTNETCORE}" ]; then 
+      dotnet build && dotnet test; 
+    else 
+      nuget restore ./Promact.OAuth.Client/Promact.OAuth.Client.sln && xbuild ./Promact.OAuth.Client/Promact.OAuth.Client.sln 
+    fi  
