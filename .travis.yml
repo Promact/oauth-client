@@ -1,0 +1,17 @@
+language: csharp
+os: linux		
+dist: trusty
+mono: none
+sudo: required
+dotnet: 1.0.0-preview2-1-003177
+install:
+- dotnet restore
+before_script:
+- sh -e /etc/init.d/xvfb start
+solution: "./Promact.OAuth.Client/Promact.OAuth.Client.sln"
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+script:
+- dotnet build ./Promact.OAuth.Client/src/Promact.OAuth.Client -c Release
