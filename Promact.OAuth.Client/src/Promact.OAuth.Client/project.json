@@ -9,14 +9,15 @@
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
-    },
-    "net461": {
-      "dependencies": {
-        "Microsoft.Owin.Security.Cookies": "3.0.1",
-        "Microsoft.Owin.Security.OpenIdConnect": "3.0.1",
-        "Owin": "1.0.0"
-      }
     }
+    //},
+    //"net461": {
+    //  "dependencies": {
+    //    "Microsoft.Owin.Security.Cookies": "3.0.1",
+    //    "Microsoft.Owin.Security.OpenIdConnect": "3.0.1",
+    //    "Owin": "1.0.0"
+    //  }
+    //}
   },
   "buildOptions": {
     "xmlDoc": true
