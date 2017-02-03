@@ -19,6 +19,6 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-    - cd Promact.OAuth.Client && nuget spec && nuget pack Package.nuspec -Version 1.0.0 -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg "8d9a12cc-321a-443e-aa19-873d603984e1" -verbosity detailed
+    - cd Promact.OAuth.Client && nuget spec && nuget pack Package.nuspec -Version 1.0.0 -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
   on:
     branch: Issue-#11
