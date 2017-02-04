@@ -1,3 +1,4 @@
+version: 1.0.0.{TRAVIS_BUILD_NUMBER}
 language: csharp
 os: linux		
 dist: trusty
@@ -19,6 +20,7 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-    - cd ./Promact.OAuth.Client/src/Promact.OAuth.Client && nuget pack Promact.OAuth.Client.nuspec -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
+    - echo TRAVIS_BUILD_NUMBER
+    - cd ./Promact.OAuth.Client/src/Promact.OAuth.Client && nuget pack Promact.OAuth.Client.nuspec -Version $VERSION -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
   on:
     branch: master
