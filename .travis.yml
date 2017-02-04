@@ -23,4 +23,4 @@ deploy:
     - echo TRAVIS_BUILD_NUMBER
     - cd ./Promact.OAuth.Client/src/Promact.OAuth.Client && nuget pack Promact.OAuth.Client.nuspec -Version $VERSION -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
   on:
-    branch: master
+    branch: Issue-#11
