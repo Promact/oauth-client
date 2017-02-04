@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Promact.OAuth.Client</id>
+    <version>$version$</version>
+    <title>Promact.OAuth.Client</title>
+    <authors>Promact</authors>
+    <owners>Promact</owners>
+    <licenseUrl>https://github.com/Promact/oauth-client</licenseUrl>
+    <projectUrl>https://github.com/Promact/oauth-client</projectUrl>
+    <iconUrl>https://media.licdn.com/media/p/2/005/01b/1a3/2416109.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Promact SDK and pipeline</description>
+    <releaseNotes>Promact SDK and pipeline</releaseNotes>
+    <copyright>Promact 2017</copyright>
+    <tags>Promact-SDK Promact-OAuth</tags>
+  </metadata>
+  <files>
+    <file src="bin/Release/net461/Promact.OAuth.Client.dll" target="lib\net461"></file>
+    <file src="bin/Release/netstandard1.6/Promact.OAuth.Client.dll" target="lib\netstandard1.6"></file>
+  </files>
+</package>
