@@ -22,8 +22,6 @@ script:
 - dotnet build ./Promact.OAuth.Client/src/Promact.OAuth.Client -c Release
 - dotnet build ./Promact.OAuth.Client/src/Promact.OAuth.Client.Test -c Release
 - dotnet test ./Promact.OAuth.Client/src/Promact.OAuth.Client.Test/project.json -c Release 
-- cd ./Promact.OAuth.Client/src/Promact.OAuth.Client/bin/Release
-- ls
 deploy:
   provider: script
   skip_cleanup: true
