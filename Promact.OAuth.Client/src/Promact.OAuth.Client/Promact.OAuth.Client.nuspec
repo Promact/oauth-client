@@ -15,20 +15,6 @@
     <copyright>Promact 2017</copyright>
     <tags>Promact-SDK Promact-OAuth</tags>
   </metadata>
-  <dependencies>
-    <dependency id="Newtonsoft.Json" version ="9.0.2-beta2"></dependency>
-    <dependency id="System.Net.Security" version ="4.3.0"></dependency>
-
-   <group targetFramework="net461">
-      <dependency id="Microsoft.Owin.Security.Cookies" version ="3.0.1" />
-      <dependency id="Microsoft.Owin.Security.OpenIdConnect" version="3.0.1"></dependency>
-      <dependency id="Owin" version="1.0.0"></dependency>
-   </group>
-   <group targetFramework="netstandard1.6">
-      <dependency id="Microsoft.AspNetCore.Authentication.OpenIdConnect" version ="1.1.0" />
-      <dependency id="NETStandard.Library" version="1.6.1"></dependency>
-   </group>
-  </dependencies>
   <files>
     <file src="bin/Release/net461/Promact.OAuth.Client.dll" target="lib\net461"></file>
     <file src="bin/Release/netstandard1.6/Promact.OAuth.Client.dll" target="lib\netstandard1.6"></file>
