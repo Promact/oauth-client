@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Promact.OAuth.Client.Util.StringConstant;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+﻿using Promact.OAuth.Client.Util.StringConstant;
 using Promact.OAuth.Client.DomainModel;
 #if NET461
 using Owin;
 using Microsoft.Owin.Security.OpenIdConnect;
+#else
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
 #endif
 
 namespace Promact.OAuth.Client.Middleware
