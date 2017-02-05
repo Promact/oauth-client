@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Promact.OAuth.Client</id>
-    <version>1.0.0</version>
+    <version>$version$</version>
     <title>Promact-OAuth-SDK</title>
     <authors>Promact</authors>
     <owners>Promact</owners>
@@ -16,7 +16,7 @@
     <tags>Promact-SDK Promact-OAuth</tags>
   </metadata>
   <files>
-    <file src="bin/Release/net461/Promact.OAuth.Client.dll" target="lib"></file>
-    <file src="bin/Release/netstandard1.6/Promact.OAuth.Client.dll" target="lib"></file>
+    <file src="bin/Release/net461/Promact.OAuth.Client.dll" target="lib/net461"></file>
+    <file src="bin/Release/netstandard1.6/Promact.OAuth.Client.dll" target="lib/netstandard1.6"></file>
   </files>
 </package>
