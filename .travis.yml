@@ -27,5 +27,6 @@ deploy:
   skip_cleanup: true
   script:
     - cd ./Promact.OAuth.Client/src/Promact.OAuth.Client && nuget pack Promact.OAuth.Client.nuspec -Version 1.0.0.$TRAVIS_BUILD_NUMBER -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
+    - ls
   on:
     branch: Issue-#14
