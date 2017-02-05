@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Promact.OAuth.Client</id>
-    <version>$version$</version>
+    <version>1.0.0</version>
     <title>Promact.OAuth.Client</title>
     <authors>Promact</authors>
     <owners>Promact</owners>
