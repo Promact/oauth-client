@@ -3,7 +3,7 @@
   <metadata>
     <id>Promact.OAuth.Client</id>
     <version>$version$</version>
-    <title>Promact-OAuth-SDK</title>
+    <title>Promact.OAuth.Client</title>
     <authors>Promact</authors>
     <owners>Promact</owners>
     <licenseUrl>https://github.com/Promact/oauth-client</licenseUrl>
