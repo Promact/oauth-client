@@ -5,19 +5,6 @@
     /// </summary>
     public class StringConstant : IStringConstant
     {
-        #region Base Url
-        /// <summary>
-        /// Promact Oauth server base url
-        /// </summary>
-        public string PromactOAuthBaseUrl
-        {
-            get
-            {
-                return "http://localhost:35716/";
-            }
-        }
-        #endregion
-
         #region OAUth API Urls
         /// <summary>
         /// Get promact's list of management url

@@ -5,13 +5,6 @@
     /// </summary>
     public interface IStringConstant
     {
-        #region Base Url
-        /// <summary>
-        /// Promact Oauth server base url
-        /// </summary>
-        string PromactOAuthBaseUrl { get; }
-        #endregion
-
         #region OAUth API Urls
         /// <summary>
         /// Get promact's list of management url
