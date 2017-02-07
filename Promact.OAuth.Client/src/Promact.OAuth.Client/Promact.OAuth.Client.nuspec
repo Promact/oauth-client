@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Promact.OAuth.Client</id>
+    <id>OAuth.Client.Promact</id>
     <version>$version$</version>
-    <title>Promact.OAuth.Client</title>
+    <title>OAuth.Client.Promact</title>
     <authors>Promact</authors>
     <owners>Promact</owners>
     <licenseUrl>https://github.com/Promact/oauth-client</licenseUrl>
