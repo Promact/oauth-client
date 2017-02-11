@@ -13,15 +13,13 @@ namespace Promact.OAuth.Client.Test
     {
         #region Private Variables
         private readonly IUserModule _userModule;
-        private readonly IStringConstant _stringConstant;
         #endregion
 
         #region Constructor
         public UserModuleIntegrationTest() : base()
         {
             _userModule = serviceProvider.GetService<IUserModule>();
-            _stringConstant = serviceProvider.GetService<IStringConstant>();
-            PromactBaseUrl.PromactOAuthUrl = "http://oauth.promactinfo.com/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.PromactOAuthUrl;
         }
         #endregion
 
@@ -32,8 +30,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailBySlackUserIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Email, "admin@promactinfo.com");
+            var result = await _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.AdminIdForIntegrationTest,
+                _userScopeResponse.AccessToken);
+            Assert.Equal(result.Email, _stringConstant.AdminEmailForTest);
         }
 
         /// <summary>
@@ -43,7 +42,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserDetailBySlackUserIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(() =>
-            _userModule.GetPromactUserDetailBySlackUserIdAsync("1df5sd5fs5d", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -53,9 +53,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserDetailBySlackUserIdAsync("1df5sd5fs5d", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -65,7 +66,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsync()
         {
-            var result = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("9cdc7982-25b9-45a4-afdc-6b13e6e53ca6", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.UserIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -76,7 +78,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("f5gd51fgd", _userScopeResponse.AccessToken));
+            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -86,9 +89,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("f5gd51fgd", _userScopeResponse.AccessToken));
+            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -108,7 +112,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactManagementDetailsAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
             _userModule.GetListOfPromactManagementDetailsAsync(_userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
@@ -120,7 +124,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsync()
         {
-            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync("d37a7afe-ae39-414d-b9fc-8150629a7f85", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
             Assert.Equal(result.CasualLeave, 2);
         }
 
@@ -131,7 +136,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserLeaveAllowedDetailsAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync("sd4f1s2d1f2s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -141,9 +147,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync("sd4f1s2d1f2s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -153,7 +160,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsync()
         {
-            var result = await _userModule.GetPromactUserIsAdminOrNotAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.AdminIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
             Assert.Equal(result, true);
         }
 
@@ -164,7 +172,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserIsAdminOrNotAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserIsAdminOrNotAsync("d541f5sd1f5s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -174,9 +183,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync("d541f5sd1f5s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -186,8 +196,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailByIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Email, "admin@promactinfo.com");
+            var result = await _userModule.GetPromactUserDetailByIdAsync(_stringConstant.AdminIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
+            Assert.Equal(result.Email, _stringConstant.AdminEmailForTest);
         }
 
         /// <summary>
@@ -197,7 +208,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserDetailByIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserDetailByIdAsync("df1s5d1fs51df5s1d5f1s5d1s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserDetailByIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -207,9 +219,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserDetailByIdAsync("df1s5d1fs51df5s1d5f1s5d1s", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserDetailByIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -219,7 +232,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsync()
         {
-            var result = await _userModule.GetPromactUserRoleAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactUserRoleAsync(_stringConstant.AdminIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -230,7 +244,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserRoleAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserRoleAsync("7dsa4f5sadfs4df5s4df5s4d5ssdf1", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserRoleAsync(_stringConstant.RandomUserIdForTest, _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -240,9 +254,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserRoleAsync("7dsa4f5sadfs4df5s4df5s4d5ssdf1", _userScopeResponse.AccessToken));
+            _userModule.GetPromactUserRoleAsync(_stringConstant.RandomUserIdForTest, _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -252,7 +266,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsync()
         {
-            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.AdminIdForIntegrationTest, 
+                _userScopeResponse.AccessToken);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -263,7 +278,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactTeamMembersDetailsByUserIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactTeamMembersDetailsByUserIdAsync("df1s5d4fg5sfg51sdf5g1s5d1f5sddfs", _userScopeResponse.AccessToken));
+            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result);
         }
 
@@ -273,9 +289,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactTeamMembersDetailsByUserIdAsync("df1s5d4fg5sfg51sdf5g1s5d1f5sddfs", _userScopeResponse.AccessToken));
+            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.RandomUserIdForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result);
         }
 
@@ -285,7 +302,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsync()
         {
-            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync("Slash-Command", _projectScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.ProjectGroupNameForTest, 
+                _projectScopeResponse.AccessToken);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -295,9 +313,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
-            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync("Slash-Command", _userScopeResponse.AccessToken));
+            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.ProjectGroupNameForTest, 
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
 
@@ -307,7 +326,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsync()
         {
-            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync("ea18f1db-6fa5-4050-8930-138e0b1ff21d", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.TeamLeaderIdForIntegrationTest,
+                _userScopeResponse.AccessToken);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -318,7 +338,8 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync("fs5d1fg5sdf4g5s1df5s1d5f", _userScopeResponse.AccessToken));
+            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.RandomUserIdForTest,
+            _userScopeResponse.AccessToken));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -328,9 +349,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:1234/";
+            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync("fs5d1fg5sdf4g5s1df5s1d5f", _userScopeResponse.AccessToken));
+            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.RandomUserIdForTest,
+            _userScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
         #endregion

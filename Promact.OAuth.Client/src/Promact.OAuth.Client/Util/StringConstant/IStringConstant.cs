@@ -130,5 +130,48 @@
         /// </summary>
         string ResponseTypeCodeAndIdToken { get; }
         #endregion
+
+        #region Integration Test Cases
+        /// <summary>
+        /// String Id of Admin for Test
+        /// </summary>
+        string AdminIdForIntegrationTest { get; }
+        /// <summary>
+        /// String Id of User for Test
+        /// </summary>
+        string UserIdForIntegrationTest { get; }
+        /// <summary>
+        /// Random Id for Test cases
+        /// </summary>
+        string RandomUserIdForTest { get; }
+        /// <summary>
+        /// String Id of TeamLeader for Test
+        /// </summary>
+        string TeamLeaderIdForIntegrationTest { get; }
+        /// <summary>
+        /// String Email address of Admin
+        /// </summary>
+        string AdminEmailForTest { get; }
+        /// <summary>
+        /// String Project group name for test
+        /// </summary>
+        string ProjectGroupNameForTest { get; }
+        /// <summary>
+        /// Random Url for test
+        /// </summary>
+        string RandomUrlForTest { get; }
+        /// <summary>
+        /// Promact Oauth Server Base Url
+        /// </summary>
+        string PromactOAuthUrl { get; }
+        /// <summary>
+        /// Promact App Integration Test ClientId
+        /// </summary>
+        string PromactOAuthClientId { get; }
+        /// <summary>
+        /// Promact App Integration Test ClientSecret
+        /// </summary>
+        string PromactOAuthClientSecret { get; }
+        #endregion
     }
 }
