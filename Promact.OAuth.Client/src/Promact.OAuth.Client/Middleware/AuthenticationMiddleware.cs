@@ -1,5 +1,6 @@
 ﻿using Promact.OAuth.Client.Util.StringConstant;
 using Promact.OAuth.Client.DomainModel;
+using Promact.OAuth.Client.Repository.BaseUrlSetUp;
 #if NET461
 using Owin;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -39,6 +40,7 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnectAuthenticationOptions.PostLogoutRedirectUri = options.LogoutUrl;
             openIdConnectAuthenticationOptions.UseTokenLifetime = true;
             openIdConnectAuthenticationOptions.Notifications = options.Notifications;
+            PromactBaseUrl.PromactOAuthUrl = options.Authority;
             return app.UseOpenIdConnectAuthentication(openIdConnectAuthenticationOptions);
         }
 #else
@@ -58,6 +60,7 @@ namespace Promact.OAuth.Client.Middleware
             {
                 openIdConnecOptions.Scope.Add(scope.ToString());
             }
+            openIdConnecOptions.Events = options.Event;
             openIdConnecOptions.AuthenticationScheme = _stringConstant.OIDCAuthenticationScheme;
             openIdConnecOptions.SignInScheme = _stringConstant.SignInSchemeCookies;
             openIdConnecOptions.Authority = options.Authority;
@@ -71,7 +74,7 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnecOptions.AutomaticChallenge = true;
             openIdConnecOptions.PostLogoutRedirectUri = options.LogoutUrl;
             openIdConnecOptions.UseTokenLifetime = true;
-            openIdConnecOptions.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
+            PromactBaseUrl.PromactOAuthUrl = options.Authority;
             return app.UseOpenIdConnectAuthentication(openIdConnecOptions);
         }
 #endif

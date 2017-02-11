@@ -235,7 +235,6 @@ namespace Promact.OAuth.Client.Test
             user.IsActive = true;
             user.NumberOfCasualLeave = 9;
             user.NumberOfSickLeave = 4;
-            user.SlackUserId = _stringConstant.SlackUserIdForTest;
             user.UserName = _stringConstant.EmailRandomValueForTest;
             userList.Add(user);
             project.CreatedDate = DateTime.UtcNow;

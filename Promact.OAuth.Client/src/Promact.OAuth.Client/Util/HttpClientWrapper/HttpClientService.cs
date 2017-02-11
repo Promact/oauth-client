@@ -1,4 +1,5 @@
 ﻿using Promact.OAuth.Client.DomainModel;
+using Promact.OAuth.Client.Repository.BaseUrlSetUp;
 using Promact.OAuth.Client.Util.StringConstant;
 using System;
 using System.Net.Http;
@@ -41,7 +42,7 @@ namespace Promact.OAuth.Client.Util.HttpClientWrapper
             try
             {
                 _httpClient = new HttpClient();
-                _httpClient.BaseAddress = new Uri(_stringConstant.PromactOAuthBaseUrl);
+                _httpClient.BaseAddress = new Uri(PromactBaseUrl.PromactOAuthUrl);
                 // Added access token to request header if provided by user
                 if (!String.IsNullOrEmpty(accessToken))
                 {

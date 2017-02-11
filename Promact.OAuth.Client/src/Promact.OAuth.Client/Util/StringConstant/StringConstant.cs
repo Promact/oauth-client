@@ -5,19 +5,6 @@
     /// </summary>
     public class StringConstant : IStringConstant
     {
-        #region Base Url
-        /// <summary>
-        /// Promact Oauth server base url
-        /// </summary>
-        public string PromactOAuthBaseUrl
-        {
-            get
-            {
-                return "http://localhost:35716/";
-            }
-        }
-        #endregion
-
         #region OAUth API Urls
         /// <summary>
         /// Get promact's list of management url
@@ -103,7 +90,7 @@
         {
             get
             {
-                return "api/users/{0}/teammebers";
+                return "api/users/{0}/teammembers";
             }
         }
 
@@ -233,17 +220,6 @@
         }
 
         /// <summary>
-        /// Random slack user Id for test cases
-        /// </summary>
-        public string SlackUserIdForTest
-        {
-            get
-            {
-                return "U0HJKJ4";
-            }
-        }
-
-        /// <summary>
         /// Random slack group name for test
         /// </summary>
         public string SlackGroupNameForTest
@@ -341,6 +317,118 @@
             get
             {
                 return "code id_token token";
+            }
+        }
+        #endregion
+
+        #region Integration Test Cases
+        /// <summary>
+        /// String Id of Admin for Test
+        /// </summary>
+        public string AdminIdForIntegrationTest
+        {
+            get
+            {
+                return "8d29efae-d747-4fc6-a7f1-13f687bd5d67";
+            }
+        }
+
+        /// <summary>
+        /// String Id of User for Test
+        /// </summary>
+        public string UserIdForIntegrationTest
+        {
+            get
+            {
+                return "9cdc7982-25b9-45a4-afdc-6b13e6e53ca6";
+            }
+        }
+
+        /// <summary>
+        /// Random Id for Test cases
+        /// </summary>
+        public string RandomUserIdForTest
+        {
+            get
+            {
+                return "dasfnsjkdnflkasmdlka";
+            }
+        }
+
+        /// <summary>
+        /// String Id of TeamLeader for Test
+        /// </summary>
+        public string TeamLeaderIdForIntegrationTest
+        {
+            get
+            {
+                return "ea18f1db-6fa5-4050-8930-138e0b1ff21d";
+            }
+        }
+
+        /// <summary>
+        /// String Email address of Admin
+        /// </summary>
+        public string AdminEmailForTest
+        {
+            get
+            {
+                return "admin@promactinfo.com";
+            }
+        }
+
+        /// <summary>
+        /// String Project group name for test
+        /// </summary>
+        public string ProjectGroupNameForTest
+        {
+            get
+            {
+                return "Slash-Command";
+            }
+        }
+
+        /// <summary>
+        /// Random Url for test
+        /// </summary>
+        public string RandomUrlForTest
+        {
+            get
+            {
+                return "http://localhost:1234/";
+            }
+        }
+
+        /// <summary>
+        /// Promact Oauth Server Base Url
+        /// </summary>
+        public string PromactOAuthUrl
+        {
+            get
+            {
+                return "http://oauth.promactinfo.com/";
+            }
+        }
+
+        /// <summary>
+        /// Promact App Integration Test ClientId
+        /// </summary>
+        public string PromactOAuthClientId
+        {
+            get
+            {
+                return "OOKK4SVDYQ8XRUU";
+            }
+        }
+
+        /// <summary>
+        /// Promact App Integration Test ClientSecret
+        /// </summary>
+        public string PromactOAuthClientSecret
+        {
+            get
+            {
+                return "icbbHra92LEzIS5AHE6NuuR0Qk20Oo";
             }
         }
         #endregion
