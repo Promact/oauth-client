@@ -54,10 +54,5 @@
         /// User's unique name
         /// </summary>
         public string UniqueName { get { return FirstName + "-" + Email; } }
-
-        /// <summary>
-        /// User's slack user Id
-        /// </summary>
-        public string SlackUserId { get; set; }
     }
 }

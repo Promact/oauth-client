@@ -14,23 +14,23 @@ namespace Promact.OAuth.Client.Repository.User
         /// <summary>
         /// Get promact user details by user slack Id
         /// </summary>
-        /// <param name="userSlackId">user's slack Id</param>
+        /// <param name="userId">user's Id</param>
         /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>User details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        Task<DomainModel.User> GetPromactUserDetailBySlackUserIdAsync(string userSlackId, string userPromactAccessToken);
+        Task<DomainModel.User> GetPromactUserDetailBySlackUserIdAsync(string userId, string userPromactAccessToken);
         /// <summary>
         /// Get promact's team leader list by user slack Id 
         /// </summary>
-        /// <param name="userSlackId">user's slack Id</param>
+        /// <param name="userId">user's Id</param>
         /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of team leader details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        Task<List<DomainModel.User>> GetListOfPromactTeamLeaderByUsersSlackIdAsync(string userSlackId, string userPromactAccessToken);
+        Task<List<DomainModel.User>> GetListOfPromactTeamLeaderByUsersSlackIdAsync(string userId, string userPromactAccessToken);
         /// <summary>
         /// Get promact's all management list
         /// </summary>
@@ -43,23 +43,23 @@ namespace Promact.OAuth.Client.Repository.User
         /// <summary>
         /// Get promact's user leave allowed detail by slack user Id
         /// </summary>
-        /// <param name="userSlackId">user's slack Id</param>
+        /// <param name="userId">user's Id</param>
         /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>leave allowed details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        Task<DomainModel.LeaveAllowed> GetPromactUserLeaveAllowedDetailsAsync(string userSlackId, string userPromactAccessToken);
+        Task<DomainModel.LeaveAllowed> GetPromactUserLeaveAllowedDetailsAsync(string userId, string userPromactAccessToken);
         /// <summary>
         /// Get promact's user is admin or not by slack user Id
         /// </summary>
-        /// <param name="userSlackId">user's slack Id</param>
+        /// <param name="userId">user's Id</param>
         /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>true or false</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        Task<bool> GetPromactUserIsAdminOrNotAsync(string userSlackId, string userPromactAccessToken);
+        Task<bool> GetPromactUserIsAdminOrNotAsync(string userId, string userPromactAccessToken);
         /// <summary>
         /// Get promact's user details by user Id
         /// </summary>

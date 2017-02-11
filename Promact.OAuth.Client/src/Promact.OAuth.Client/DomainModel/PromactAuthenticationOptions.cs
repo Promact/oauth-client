@@ -1,5 +1,7 @@
 ﻿#if NET461
 using Microsoft.Owin.Security.OpenIdConnect;
+#else
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 #endif
 using System.Collections.Generic;
 
@@ -47,6 +49,11 @@ namespace Promact.OAuth.Client.DomainModel
         /// to notify when processing OpenIdConnect messages.
         /// </summary>
         public OpenIdConnectAuthenticationNotifications Notifications { get; set; }
+#else
+        /// <summary>
+        /// Event Property of OpenIdConnection
+        /// </summary>
+        public OpenIdConnectEvents Event { get; set; }
 #endif
     }
 }
