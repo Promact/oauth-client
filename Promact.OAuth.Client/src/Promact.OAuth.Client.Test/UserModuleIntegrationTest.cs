@@ -62,7 +62,7 @@ namespace Promact.OAuth.Client.Test
         /// <summary>
         /// Integration Test GetListOfPromactTeamLeaderByUsersSlackIdAsync
         /// </summary>
-        //[Fact]
+        [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsync()
         {
             var result = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("9cdc7982-25b9-45a4-afdc-6b13e6e53ca6", _userScopeResponse.AccessToken);
