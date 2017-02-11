@@ -9,7 +9,7 @@ using IdentityModel.Client;
 namespace Promact.OAuth.Client.Test
 {
     public class IntegrationBaseProvider
-    {
+    { 
         public IServiceProvider serviceProvider { get; set; }
         private readonly TokenClient _client;
         public readonly TokenResponse _userScopeResponse;
