@@ -11,15 +11,21 @@ namespace Promact.OAuth.Client.Test
 {
     public class ProjectModuleIntegrationTest : IntegrationBaseProvider
     {
+        #region Private Variables
         private readonly IProjectModule _projectModule;
         private readonly IStringConstant _stringConstant;
+        #endregion
+
+        #region Constructor
         public ProjectModuleIntegrationTest() : base()
         {
             _projectModule = serviceProvider.GetService<IProjectModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
-            PromactBaseUrl.PromactOAuthUrl = "http://localhost:35716/";
+            PromactBaseUrl.PromactOAuthUrl = "http://oauth.promactinfo.com/";
         }
+        #endregion
 
+        #region Test cases
         /// <summary>
         /// Integration Test GetPromactProjectDetailsByGroupNameAsync
         /// </summary>
@@ -96,5 +102,6 @@ namespace Promact.OAuth.Client.Test
             _projectModule.GetPromactProjectDetailsByIdAsync(1000, _projectScopeResponse.AccessToken));
             Assert.NotNull(result.Message);
         }
+        #endregion
     }
 }

@@ -47,9 +47,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserDetailBySlackUserIdAsync()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, SerializationOfUser(), HttpStatusCode.OK);
-            var expectedResult = await _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.SlackUserIdForTest,
+            var expectedResult = await _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(_stringConstant.UserIdForTest, expectedResult.Id);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
@@ -61,10 +61,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserDetailBySlackUserIdAsyncForAuthenticationException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -75,10 +75,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserDetailBySlackUserIdAsyncForHttpRequestException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -89,10 +89,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserDetailBySlackUserIdAsyncForUserNotFoundException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<UserNotFoundException>(() =>
-            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserDetailBySlackUserIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.UserNotFoundExceptionMessage, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -104,9 +104,9 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetListOfPromactTeamLeaderByUsersSlackIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, 
-                _stringConstant.SlackUserIdForTest);
+                _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, SerializationOfListOfUser(), HttpStatusCode.OK);
-            var expectedResult = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.SlackUserIdForTest,
+            var expectedResult = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult.Any());
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
@@ -118,10 +118,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetListOfPromactTeamLeaderByUsersSlackIdAsyncForAuthenticationException()
         {
-            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -132,10 +132,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetListOfPromactTeamLeaderByUsersSlackIdAsyncForHttpRequestException()
         {
-            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -146,10 +146,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetListOfPromactTeamLeaderByUsersSlackIdAsyncForUserNotFoundException()
         {
-            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<UserNotFoundException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.UserNotFoundExceptionMessage, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -216,9 +216,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserLeaveAllowedDetailsAsync()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, SerializationOfLeaveAllowed(), HttpStatusCode.OK);
-            var expectedResult = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.SlackUserIdForTest,
+            var expectedResult = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(Convert.ToInt32(_stringConstant.CasualLeaveForTest), expectedResult.CasualLeave);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
@@ -230,10 +230,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserLeaveAllowedDetailsAsyncForAuthenticationException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -244,10 +244,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserLeaveAllowedDetailsAsyncForHttpRequestException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -258,10 +258,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserLeaveAllowedDetailsAsyncForUserNotFoundException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<UserNotFoundException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.UserNotFoundExceptionMessage, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -272,9 +272,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserIsAdminOrNotAsync()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, true.ToString().ToLower(), HttpStatusCode.OK);
-            var expectedResult = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.SlackUserIdForTest,
+            var expectedResult = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.UserIdForTest,
                 _stringConstant.AccessTokenForTest);
             Assert.Equal(true, expectedResult);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
@@ -286,10 +286,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserIsAdminOrNotAsyncForAuthenticationException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -300,10 +300,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserIsAdminOrNotAsyncForHttpRequestException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -314,10 +314,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task TestGetPromactUserIsAdminOrNotAsyncForUserNotFoundException()
         {
-            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.SlackUserIdForTest);
+            var contentUrl = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, _stringConstant.UserIdForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<UserNotFoundException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.SlackUserIdForTest, _stringConstant.AccessTokenForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.UserIdForTest, _stringConstant.AccessTokenForTest));
             Assert.Equal(_stringConstant.UserNotFoundExceptionMessage, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -617,7 +617,6 @@ namespace Promact.OAuth.Client.Test
             user.IsActive = true;
             user.NumberOfCasualLeave = 9;
             user.NumberOfSickLeave = 6;
-            user.SlackUserId = _stringConstant.SlackUserIdForTest;
             user.UserName = _stringConstant.EmailRandomValueForTest;
             userList.Add(user);
             userRole.UserName = _stringConstant.EmailRandomValueForTest;

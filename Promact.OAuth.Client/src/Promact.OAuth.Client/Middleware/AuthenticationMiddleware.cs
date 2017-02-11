@@ -60,6 +60,7 @@ namespace Promact.OAuth.Client.Middleware
             {
                 openIdConnecOptions.Scope.Add(scope.ToString());
             }
+            openIdConnecOptions.Events = options.Event;
             openIdConnecOptions.AuthenticationScheme = _stringConstant.OIDCAuthenticationScheme;
             openIdConnecOptions.SignInScheme = _stringConstant.SignInSchemeCookies;
             openIdConnecOptions.Authority = options.Authority;

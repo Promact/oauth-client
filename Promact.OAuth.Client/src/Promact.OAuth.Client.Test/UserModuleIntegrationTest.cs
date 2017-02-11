@@ -21,7 +21,7 @@ namespace Promact.OAuth.Client.Test
         {
             _userModule = serviceProvider.GetService<IUserModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
-            Repository.BaseUrlSetUp.PromactBaseUrl.PromactOAuthUrl = "http://localhost:35716/";
+            PromactBaseUrl.PromactOAuthUrl = "http://oauth.promactinfo.com/";
         }
         #endregion
 
@@ -32,8 +32,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailBySlackUserIdAsync("U7800454", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Email, "roshni@promactinfo.com");
+            var result = await _userModule.GetPromactUserDetailBySlackUserIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            Assert.Equal(result.Email, "admin@promactinfo.com");
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace Promact.OAuth.Client.Test
         /// <summary>
         /// Integration Test GetListOfPromactTeamLeaderByUsersSlackIdAsync
         /// </summary>
-        [Fact]
+        //[Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsync()
         {
-            var result = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("U7800454", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Count, 1);
+            var result = await _userModule.GetListOfPromactTeamLeaderByUsersSlackIdAsync("9cdc7982-25b9-45a4-afdc-6b13e6e53ca6", _userScopeResponse.AccessToken);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetListOfPromactManagementDetailsAsync()
         {
             var result = await _userModule.GetListOfPromactManagementDetailsAsync(_userScopeResponse.AccessToken);
-            Assert.Equal(result.Count, 2);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>
@@ -120,8 +120,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsync()
         {
-            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync("U7800454",_userScopeResponse.AccessToken);
-            Assert.NotNull(result.CasualLeave);
+            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync("d37a7afe-ae39-414d-b9fc-8150629a7f85", _userScopeResponse.AccessToken);
+            Assert.Equal(result.CasualLeave, 2);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsync()
         {
-            var result = await _userModule.GetPromactUserIsAdminOrNotAsync("U7800454", _userScopeResponse.AccessToken);
+            var result = await _userModule.GetPromactUserIsAdminOrNotAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
             Assert.Equal(result, true);
         }
 
@@ -186,8 +186,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailByIdAsync("724f2dd4-49a4-4f6b-8edb-f957f1cbbc23", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Email, "roshni@promactinfo.com");
+            var result = await _userModule.GetPromactUserDetailByIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            Assert.Equal(result.Email, "admin@promactinfo.com");
         }
 
         /// <summary>
@@ -219,8 +219,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsync()
         {
-            var result = await _userModule.GetPromactUserRoleAsync("724f2dd4-49a4-4f6b-8edb-f957f1cbbc23", _userScopeResponse.AccessToken);
-            Assert.NotNull(result);
+            var result = await _userModule.GetPromactUserRoleAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>
@@ -252,8 +252,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsync()
         {
-            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync("724f2dd4-49a4-4f6b-8edb-f957f1cbbc23", _userScopeResponse.AccessToken);
-            Assert.NotNull(result);
+            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync("8d29efae-d747-4fc6-a7f1-13f687bd5d67", _userScopeResponse.AccessToken);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>
@@ -285,8 +285,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsync()
         {
-            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync("Slash-Command", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Count, 1);
+            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync("Slash-Command", _projectScopeResponse.AccessToken);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>
@@ -307,8 +307,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsync()
         {
-            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync("724f2dd4-49a4-4f6b-8edb-f957f1cbbc23", _userScopeResponse.AccessToken);
-            Assert.Equal(result.Count, 2);
+            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync("ea18f1db-6fa5-4050-8930-138e0b1ff21d", _userScopeResponse.AccessToken);
+            Assert.NotEqual(result.Count, 0);
         }
 
         /// <summary>

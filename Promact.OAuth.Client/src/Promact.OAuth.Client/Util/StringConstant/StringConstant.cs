@@ -90,7 +90,7 @@
         {
             get
             {
-                return "api/users/{0}/teammebers";
+                return "api/users/{0}/teammembers";
             }
         }
 
@@ -216,17 +216,6 @@
             get
             {
                 return "7092802a-206e-4ce4-8192-f086a1ec1fb6";
-            }
-        }
-
-        /// <summary>
-        /// Random slack user Id for test cases
-        /// </summary>
-        public string SlackUserIdForTest
-        {
-            get
-            {
-                return "U0HJKJ4";
             }
         }
 

@@ -89,10 +89,6 @@
         /// </summary>
         string UserIdForTest { get; }
         /// <summary>
-        /// Random slack user Id for test cases
-        /// </summary>
-        string SlackUserIdForTest { get; }
-        /// <summary>
         /// Random slack group name for test
         /// </summary>
         string SlackGroupNameForTest { get; }

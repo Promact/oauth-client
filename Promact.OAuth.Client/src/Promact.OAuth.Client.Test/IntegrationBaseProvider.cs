@@ -11,10 +11,10 @@ namespace Promact.OAuth.Client.Test
     public class IntegrationBaseProvider
     {
         public IServiceProvider serviceProvider { get; set; }
-        private readonly DiscoveryResponse _discovery;
         private readonly TokenClient _client;
         public readonly TokenResponse _userScopeResponse;
         public readonly TokenResponse _projectScopeResponse;
+        public readonly DiscoveryResponse _discoveryClient;
 
         public IntegrationBaseProvider()
         {
@@ -24,8 +24,10 @@ namespace Promact.OAuth.Client.Test
             services.AddScoped<IStringConstant, StringConstant>();
             services.AddScoped<IHttpClientService, HttpClientService>();
             serviceProvider = services.BuildServiceProvider();
-            _discovery = DiscoveryClient.GetAsync("http://localhost:35716/").Result;
-            _client = new TokenClient(_discovery.TokenEndpoint, "O1UGSJW6X4V16IY", "RtZIZVt7VyW11NiSKazAxvTZlOpjRf");
+            var discovery = new DiscoveryClient("http://oauth.promactinfo.com/");
+            discovery.Policy.RequireHttps = false;
+            _discoveryClient = discovery.GetAsync().Result;
+            _client = new TokenClient(_discoveryClient.TokenEndpoint, "OOKK4SVDYQ8XRUU", "icbbHra92LEzIS5AHE6NuuR0Qk20Oo");
             _userScopeResponse = _client.RequestClientCredentialsAsync("user_read").Result;
             _projectScopeResponse = _client.RequestClientCredentialsAsync("project_read").Result;
         }
