@@ -194,6 +194,17 @@
                 return "Your access token doesnot match with Proamct OAuth server access token.";
             }
         }
+
+        /// <summary>
+        /// Message to be send when access token is null
+        /// </summary>
+        public string AccessTokenNullableExceptionMessage
+        {
+            get
+            {
+                return "Access token is null.";
+            }
+        }
         #endregion
 
         #region Test Cases

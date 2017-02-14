@@ -35,6 +35,7 @@ namespace Promact.OAuth.Client.Test
             _projectModule = serviceProvider.GetService<IProjectModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
             _mockHttpClientService = serviceProvider.GetService<Mock<IHttpClientService>>();
+            _projectModule.AccessToken = _stringConstant.AccessTokenForTest;
             Initialize();
         }
         #endregion
@@ -50,8 +51,7 @@ namespace Promact.OAuth.Client.Test
                 _stringConstant.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, SerializationOfProject(),
                 HttpStatusCode.OK);
-            var expertedResult = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest,
-                _stringConstant.AccessTokenForTest);
+            var expertedResult = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest);
             Assert.Equal(_stringConstant.RandomProjectNameForTest, expertedResult.Name);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -66,8 +66,7 @@ namespace Promact.OAuth.Client.Test
                 _stringConstant.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expertedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-                 _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest,
-                     _stringConstant.AccessTokenForTest));
+                 _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expertedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -82,10 +81,21 @@ namespace Promact.OAuth.Client.Test
                 _stringConstant.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expertedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest,
-                    _stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expertedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+        }
+
+        /// <summary>
+        /// To test GetPromactProjectDetailsByGroupNameAsync for AccessTokenNullableException
+        /// </summary>
+        [Fact]
+        public async Task TestGetPromactProjectDetailsByGroupNameAsyncForAccessTokenNullableExceptionAsync()
+        {
+            _projectModule.AccessToken = null;
+            var expertedResult = await Assert.ThrowsAnyAsync<AccessTokenNullableException>(() =>
+                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
+            Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, expertedResult.Message);
         }
 
         /// <summary>
@@ -95,7 +105,7 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactAllProjectsAsync()
         {
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, SerializationOfListOfProject(), HttpStatusCode.OK);
-            var expected = await _projectModule.GetPromactAllProjectsAsync(_stringConstant.AccessTokenForTest);
+            var expected = await _projectModule.GetPromactAllProjectsAsync();
             Assert.Equal(true, expected.Any());
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
@@ -109,7 +119,7 @@ namespace Promact.OAuth.Client.Test
         {
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-                _projectModule.GetPromactAllProjectsAsync(_stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactAllProjectsAsync());
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
@@ -123,7 +133,7 @@ namespace Promact.OAuth.Client.Test
         {
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-                _projectModule.GetPromactAllProjectsAsync(_stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactAllProjectsAsync());
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
@@ -137,10 +147,22 @@ namespace Promact.OAuth.Client.Test
         {
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<ProjectNotFoundException>(() =>
-                _projectModule.GetPromactAllProjectsAsync(_stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactAllProjectsAsync());
             Assert.Equal(_stringConstant.ProjectNotFoundException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
+        }
+
+        /// <summary>
+        /// To test GetPromactAllProjectsAsync for AccessTokenNullableException
+        /// </summary>
+        [Fact]
+        public async Task TestGetPromactAllProjectsAsyncForAccessTokenNullableExceptionAsync()
+        {
+            _projectModule.AccessToken = null;
+            var expertedResult = await Assert.ThrowsAnyAsync<AccessTokenNullableException>(() =>
+                _projectModule.GetPromactAllProjectsAsync());
+            Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, expertedResult.Message);
         }
 
         /// <summary>
@@ -152,8 +174,7 @@ namespace Promact.OAuth.Client.Test
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
                 Convert.ToInt32(_stringConstant.ProjectIdForTest));
             MockingHttpClientService(contentUrl, SerializationOfProject(), HttpStatusCode.OK);
-            var expectedResult = await _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest),
-                _stringConstant.AccessTokenForTest);
+            var expectedResult = await _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest));
             Assert.Equal(_stringConstant.UserIdForTest, expectedResult.TeamLeaderId);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -168,8 +189,7 @@ namespace Promact.OAuth.Client.Test
                 Convert.ToInt32(_stringConstant.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest),
-                    _stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -184,8 +204,7 @@ namespace Promact.OAuth.Client.Test
                 Convert.ToInt32(_stringConstant.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest),
-                    _stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
             Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
         }
@@ -200,10 +219,21 @@ namespace Promact.OAuth.Client.Test
                 Convert.ToInt32(_stringConstant.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<ProjectNotFoundException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest),
-                    _stringConstant.AccessTokenForTest));
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
             Assert.Equal(_stringConstant.ProjectNotFoundException, expectedResult.Message);
             _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+        }
+
+        /// <summary>
+        /// To test GetPromactProjectDetailsByIdAsync for AccessTokenNullableException
+        /// </summary>
+        [Fact]
+        public async Task TestGetPromactProjectDetailsByIdAsyncForAccessTokenNullableExceptionAsync()
+        {
+            _projectModule.AccessToken = null;
+            var expertedResult = await Assert.ThrowsAnyAsync<AccessTokenNullableException>(() =>
+                _projectModule.GetPromactProjectDetailsByIdAsync(1));
+            Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, expertedResult.Message);
         }
         #endregion
 

@@ -12,32 +12,36 @@ namespace Promact.OAuth.Client.Repository.Project
     public interface IProjectModule
     {
         /// <summary>
+        /// Access token to be set before using any method
+        /// </summary>
+        string AccessToken { get; set; }
+        /// <summary>
         /// Get promact's project details by slack group name of project
         /// </summary>
         /// <param name="slackGroupName"></param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>project detials</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
-        Task<DomainModel.Project> GetPromactProjectDetailsByGroupNameAsync(string slackGroupName, string userPromactAccessToken);
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        Task<DomainModel.Project> GetPromactProjectDetailsByGroupNameAsync(string slackGroupName);
         /// <summary>
         /// Get promact's list of all project
         /// </summary>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of project details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="ProjectNotFoundException">When project details not found</exception>
-        Task<List<DomainModel.Project>> GetPromactAllProjectsAsync(string userPromactAccessToken);
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        Task<List<DomainModel.Project>> GetPromactAllProjectsAsync();
         /// <summary>
         /// Get promact's project details by project Id
         /// </summary>
         /// <param name="projectId">project Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>project details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="ProjectNotFoundException">When project details not found</exception>
-        Task<DomainModel.Project> GetPromactProjectDetailsByIdAsync(int projectId, string userPromactAccessToken);
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        Task<DomainModel.Project> GetPromactProjectDetailsByIdAsync(int projectId);
     }
 }

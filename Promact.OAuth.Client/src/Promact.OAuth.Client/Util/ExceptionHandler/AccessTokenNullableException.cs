@@ -3,15 +3,15 @@
 namespace Promact.OAuth.Client.Util.ExceptionHandler
 {
     /// <summary>
-    /// User not found exception
+    /// Exception for Access token null
     /// </summary>
-    public class UserNotFoundException : Exception
+    public class AccessTokenNullableException : Exception
     {
         /// <summary>
-        /// User not found exception
+        /// Constructor of AccessTokenNullableException
         /// <param name="errorMessage">Error message to be send with exception</param>
         /// </summary>
-        public UserNotFoundException(string errorMessage)
+        public AccessTokenNullableException(string errorMessage) 
             : base(errorMessage)
         {
         }
