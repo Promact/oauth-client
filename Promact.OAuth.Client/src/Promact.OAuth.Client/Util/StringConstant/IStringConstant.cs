@@ -77,6 +77,10 @@
         /// Access token not match exception message
         /// </summary>
         string AccessTokenNotMatchedException { get; }
+        /// <summary>
+        /// Message to be send when access token is null
+        /// </summary>
+        string AccessTokenNullableExceptionMessage { get; }
         #endregion
 
         #region Test Cases

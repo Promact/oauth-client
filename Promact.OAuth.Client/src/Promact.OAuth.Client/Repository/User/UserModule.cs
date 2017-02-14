@@ -35,259 +35,304 @@ namespace Promact.OAuth.Client.Repository.User
 
         #region Public Methods
         /// <summary>
+        /// Access token to be set before using any method
+        /// </summary>
+        public string AccessToken { get; set; }
+
+        /// <summary>
         /// Get promact user details by user slack Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>User details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<DomainModel.User> GetPromactUserDetailBySlackUserIdAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<DomainModel.User> GetPromactUserDetailByUserIdAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var user = JsonConvert.DeserializeObject<DomainModel.User>(result.ResponseContent);
-                return user;
+                var url = string.Format(_stringConstant.GetPromactUserDetialBySlackUserIdUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var user = JsonConvert.DeserializeObject<DomainModel.User>(result.ResponseContent);
+                    return user;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's team leader list by user slack Id 
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of team leader details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<List<DomainModel.User>> GetListOfPromactTeamLeaderByUsersSlackIdAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<DomainModel.User>> GetListOfPromactTeamLeaderByUserIdAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var teamLeader = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
-                return teamLeader;
+                var url = string.Format(_stringConstant.GetListOfPromactTeamLeaderByUsersSlackIdUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var teamLeader = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
+                    return teamLeader;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's all management list
         /// </summary>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of user</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<List<DomainModel.User>> GetListOfPromactManagementDetailsAsync(string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<DomainModel.User>> GetListOfPromactManagementDetailsAsync()
         {
-            var url = _stringConstant.GetListOfPromactManagementDetailsUrl;
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var management = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
-                return management;
+                var url = _stringConstant.GetListOfPromactManagementDetailsUrl;
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var management = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
+                    return management;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's user leave allowed detail by slack user Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>leave allowed details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<LeaveAllowed> GetPromactUserLeaveAllowedDetailsAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<LeaveAllowed> GetPromactUserLeaveAllowedDetailsAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var leaveAllowed = JsonConvert.DeserializeObject<LeaveAllowed>(result.ResponseContent);
-                return leaveAllowed;
+                var url = string.Format(_stringConstant.GetPromactUserLeaveAllowedDetailsUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var leaveAllowed = JsonConvert.DeserializeObject<LeaveAllowed>(result.ResponseContent);
+                    return leaveAllowed;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's user is admin or not by slack user Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>true or false</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<bool> GetPromactUserIsAdminOrNotAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<bool> GetPromactUserIsAdminOrNotAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var IsAdmin = JsonConvert.DeserializeObject<bool>(result.ResponseContent);
-                return IsAdmin;
+                var url = string.Format(_stringConstant.GetPromactUserIsAdminOrNotUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var IsAdmin = JsonConvert.DeserializeObject<bool>(result.ResponseContent);
+                    return IsAdmin;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's user details by user Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>user details</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<DomainModel.User> GetPromactUserDetailByIdAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<DomainModel.User> GetPromactUserDetailByIdAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactUserDetailByIdUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var user = JsonConvert.DeserializeObject<DomainModel.User>(result.ResponseContent);
-                return user;
+                var url = string.Format(_stringConstant.GetPromactUserDetailByIdUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var user = JsonConvert.DeserializeObject<DomainModel.User>(result.ResponseContent);
+                    return user;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's list of user details with role by user slack Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of user role</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<List<UserRole>> GetPromactUserRoleAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<UserRole>> GetPromactUserRoleAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactUserRoleUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var userRole = JsonConvert.DeserializeObject<List<UserRole>>(result.ResponseContent);
-                return userRole;
+                var url = string.Format(_stringConstant.GetPromactUserRoleUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var userRole = JsonConvert.DeserializeObject<List<UserRole>>(result.ResponseContent);
+                    return userRole;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's list of team member details with role of project by user Id
         /// </summary>
         /// <param name="userId">user's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of user role</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<List<UserRole>> GetPromactTeamMembersDetailsByUserIdAsync(string userId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<UserRole>> GetPromactTeamMembersDetailsByUserIdAsync(string userId)
         {
-            var url = string.Format(_stringConstant.GetPromactTeamMembersDetailsByUserIdUrl, userId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var userRole = JsonConvert.DeserializeObject<List<UserRole>>(result.ResponseContent);
-                return userRole;
+                var url = string.Format(_stringConstant.GetPromactTeamMembersDetailsByUserIdUrl, userId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var userRole = JsonConvert.DeserializeObject<List<UserRole>>(result.ResponseContent);
+                    return userRole;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's list of user deatils of project by slack group name of project
         /// </summary>
         /// <param name="slackGroupName"></param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list of user</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
-        public async Task<List<DomainModel.User>> GetPromactListOfUserDetailsBySlackGroupNameAsync(string slackGroupName, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<DomainModel.User>> GetPromactListOfUserDetailsBySlackGroupNameAsync(string slackGroupName)
         {
-            var url = string.Format(_stringConstant.GetPromactProjectUserByGroupNameUrl, slackGroupName);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var userList = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
-                return userList;
+                var url = string.Format(_stringConstant.GetPromactProjectUserByGroupNameUrl, slackGroupName);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var userList = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
+                    return userList;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else
+                    throw new HttpRequestException(result.ResponseContent);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else
-                throw new HttpRequestException(result.ResponseContent);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
 
         /// <summary>
         /// Get promact's list of user details under team leader by team leader Id
         /// </summary>
         /// <param name="teamLeaderId">teamleader's Id</param>
-        /// <param name="userPromactAccessToken">user's promact access token</param>
         /// <returns>list od user</returns>
         /// <exception cref="AuthenticationException">When user's access token is not allowed</exception>
         /// <exception cref="HttpRequestException">When promact oauth server is closed</exception>
         /// <exception cref="UserNotFoundException">When user details not found</exception>
-        public async Task<List<DomainModel.User>> GetPromactListOfUsersDetailsByTeamLeaderIdAsync(string teamLeaderId, string userPromactAccessToken)
+        /// <exception cref="AccessTokenNullableException">When access token will be null</exception>
+        public async Task<List<DomainModel.User>> GetPromactListOfUsersDetailsByTeamLeaderIdAsync(string teamLeaderId)
         {
-            var url = string.Format(_stringConstant.GetPromactListOfUsersDetailsByTeamLeaderIdUrl, teamLeaderId);
-            var result = await _httpClient.GetAsync(userPromactAccessToken, url);
-            if (result.Status == System.Net.HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(AccessToken))
             {
-                var userList = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
-                return userList;
+                var url = string.Format(_stringConstant.GetPromactListOfUsersDetailsByTeamLeaderIdUrl, teamLeaderId);
+                var result = await _httpClient.GetAsync(AccessToken, url);
+                if (result.Status == System.Net.HttpStatusCode.OK)
+                {
+                    var userList = JsonConvert.DeserializeObject<List<DomainModel.User>>(result.ResponseContent);
+                    return userList;
+                }
+                else if (result.Status == System.Net.HttpStatusCode.Forbidden)
+                    throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
+                else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
+                    throw new HttpRequestException(result.ResponseContent);
+                else
+                    throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
             }
-            else if (result.Status == System.Net.HttpStatusCode.Forbidden)
-                throw new AuthenticationException(_stringConstant.AccessTokenNotMatchedException);
-            else if (result.Status == System.Net.HttpStatusCode.GatewayTimeout)
-                throw new HttpRequestException(result.ResponseContent);
-            else
-                throw new UserNotFoundException(_stringConstant.UserNotFoundExceptionMessage);
+            throw new AccessTokenNullableException(_stringConstant.AccessTokenNullableExceptionMessage);
         }
         #endregion
     }
