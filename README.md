@@ -49,17 +49,16 @@ You can initialize the client like the following:
 ```
 using Promact.OAuth.Client.Repository.User;
 using Promact.OAuth.Client.Repository.Project;
+using Promact.OAuth.Client.Util.HttpClientWrapper;
+using Promact.OAuth.Client.Util.StringConstant;
 public class Something
 {
-    private readonly IUserModule _user;
-    Private readonly IProjectModule _project;
-    public Something(IUserModule user, IProjectModule project)
-    {
-        _user = user;
-        _project = project;
-    }
     public async Task Default()
     {
+        // initialization
+        IStringConstant _stringConstant = new StringConstant();
+        IHttpClientService _httpClientService = new HttpClientService(_stringConstant);
+        IUserModule _user = new UserModule(httpClientService, stringConstant);
         _user.AccessToken = "USER_PROMACT_OAUTH_SERVER_ACCESSTOKEN";
         var userDetails = await _user.GetPromactUserDetailByUserIdAsync("string_user_id");
         var projectDetails = await _project.GetPromactProjectDetailsByIdAsync(INTEGER_PROJECT_ID);
