@@ -18,10 +18,6 @@
         /// </summary>
         profile,
         /// <summary>
-        /// Scope slack user Id
-        /// </summary>
-        slack_user_id,
-        /// <summary>
         /// Scope user read
         /// </summary>
         user_read,

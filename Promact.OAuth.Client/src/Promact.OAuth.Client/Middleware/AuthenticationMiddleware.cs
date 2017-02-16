@@ -68,6 +68,7 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnecOptions.ClientSecret = options.ClientSecret;
             openIdConnecOptions.ResponseType = _stringConstant.ResponseTypeCodeAndIdToken;
             openIdConnecOptions.PostLogoutRedirectUri = options.LogoutUrl;
+            openIdConnecOptions.GetClaimsFromUserInfoEndpoint = true;
             PromactBaseUrl.PromactOAuthUrl = options.Authority;
             return app.UseOpenIdConnectAuthentication(openIdConnecOptions);
         }
