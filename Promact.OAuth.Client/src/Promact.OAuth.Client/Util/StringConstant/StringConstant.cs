@@ -417,7 +417,7 @@
         {
             get
             {
-                return "http://oauth.promactinfo.com/";
+                return "https://oauth.promactinfo.com/";
             }
         }
 
