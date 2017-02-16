@@ -18,6 +18,7 @@ namespace Promact.OAuth.Client.DomainModel
         public PromactAuthenticationOptions()
         {
             AllowedScopes = new List<Scopes>();
+            RequireHttpsMetadata = true;
         }
         /// <summary>
         /// Promact-Oauth's Client Id
@@ -39,6 +40,10 @@ namespace Promact.OAuth.Client.DomainModel
         /// Allowed scope for Promact-Oauth's App
         /// </summary>
         public List<Scopes> AllowedScopes { get; }
+        /// <summary>
+        /// Https is required or not. By default set as true
+        /// </summary>
+        public bool RequireHttpsMetadata { get; set; }
 #if NET461
         /// <summary>
         /// Redirect Url for Promact-Oauth's App
