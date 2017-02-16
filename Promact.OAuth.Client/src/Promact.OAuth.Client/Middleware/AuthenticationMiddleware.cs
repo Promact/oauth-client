@@ -38,7 +38,6 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnectAuthenticationOptions.SignInAsAuthenticationType = _stringConstant.SignInSchemeCookies;
             openIdConnectAuthenticationOptions.AuthenticationType = _stringConstant.OIDCAuthenticationScheme;
             openIdConnectAuthenticationOptions.PostLogoutRedirectUri = options.LogoutUrl;
-            openIdConnectAuthenticationOptions.UseTokenLifetime = true;
             openIdConnectAuthenticationOptions.Notifications = options.Notifications;
             PromactBaseUrl.PromactOAuthUrl = options.Authority;
             return app.UseOpenIdConnectAuthentication(openIdConnectAuthenticationOptions);
@@ -64,16 +63,11 @@ namespace Promact.OAuth.Client.Middleware
             openIdConnecOptions.AuthenticationScheme = _stringConstant.OIDCAuthenticationScheme;
             openIdConnecOptions.SignInScheme = _stringConstant.SignInSchemeCookies;
             openIdConnecOptions.Authority = options.Authority;
-            openIdConnecOptions.RequireHttpsMetadata = false;
+            openIdConnecOptions.RequireHttpsMetadata = options.RequireHttpsMetadata;
             openIdConnecOptions.ClientId = options.ClientId;
             openIdConnecOptions.ClientSecret = options.ClientSecret;
             openIdConnecOptions.ResponseType = _stringConstant.ResponseTypeCodeAndIdToken;
-            openIdConnecOptions.GetClaimsFromUserInfoEndpoint = true;
-            openIdConnecOptions.SaveTokens = true;
-            openIdConnecOptions.AutomaticAuthenticate = true;
-            openIdConnecOptions.AutomaticChallenge = true;
             openIdConnecOptions.PostLogoutRedirectUri = options.LogoutUrl;
-            openIdConnecOptions.UseTokenLifetime = true;
             PromactBaseUrl.PromactOAuthUrl = options.Authority;
             return app.UseOpenIdConnectAuthentication(openIdConnecOptions);
         }
