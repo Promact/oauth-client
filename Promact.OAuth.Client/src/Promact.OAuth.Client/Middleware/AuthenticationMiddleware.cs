@@ -15,7 +15,7 @@ namespace Promact.OAuth.Client.Middleware
     /// Promact Authentication Middleware
     /// </summary>
     public static class AuthenticationMiddleware
-    {
+    { 
 #if NET461 
         /// <summary>
         /// Adds the Microsoft.Owin.Security.OpenIdConnect.OpenIdConnectAuthenticationMiddleware
