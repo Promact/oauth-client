@@ -1,6 +1,6 @@
 # Promact-OAuth-Client
 
-[![Build Status](https://travis-ci.org/Promact/oauth-client.svg?branch=dev)](https://travis-ci.org/Promact/oauth-client)
+[![Build Status](https://travis-ci.org/Promact/oauth-client.svg?branch=master)](https://travis-ci.org/Promact/oauth-client)
 
 Client library for Promact OAuth server
 
@@ -10,61 +10,83 @@ This library allows you to interact with Promact OAuth Server endpoints in your 
 It is fully asynchronous, designed to be non-blocking and object-oriented way to interact with Promact OAuth Server programmatically.
 
 # Installation
-You can add this library to your project using Nuget.This is the only method this library is currently distributed unless you choose to build your own binaries using source code. Run the following command in the “Package Manager Console”:
-```
+You can add this library to your project using Nuget.This is the only method this library is currently distributed unless you choose to build your own binaries using source code. Run the following command in the â€œPackage Manager Consoleâ€:
+```powershell
 Install-Package OAuth.Client.Promact
 ```
-Or right click to your project in Visual Studio, choose “Manage NuGet Packages” and search for **‘OAuth.Client.Promact’** and click ‘Install’.
+Or right click to your project in Visual Studio, choose â€œManage NuGet Packagesâ€ and search for **â€˜OAuth.Client.Promactâ€™** and click â€˜Installâ€™.
 # Usage
-You can initialize the middleware like the following :
-startup.cs
-```
+
+Initialize the middleware
+
+*Startup.cs*
+```csharp
 using Promact.OAuth.Client.Middleware;
-app.UsePromactAuthentication(new PromactAuthenticationOptions()
+
+namespace App
 {
-    Authority = "http://www.example.com/",
-    ClientId = "HJXF74EQ497GRAL",
-    ClientSecret = "ChcBmvtaUwphIsbmRkbL9amOh9Qy6Q",
-    LogoutUrl = "http://www.examples.com/",
-    AllowedScopes =
+    class Startup
     {
-        Scopes.offline_access,
-        Scopes.email,
-        Scopes.profile,
-        Scopes.openid,
-        Scopes.project_read,
-        Scopes.user_read,
-    },
-    Event = new OpenIdConnectEvents()
-    {
-        OnRemoteFailure = token => 
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            var userClaims = token.HttpContext.User.Claims;
-            return Task.FromResult(0);
+            app.UsePromactAuthentication
+            (
+                new PromactAuthenticationOptions()
+                {
+                    Authority = "http://www.example.com/",
+                    ClientId = "HJXF74EQ497GRAL",
+                    ClientSecret = "ChcBmvtaUwphIsbmRkbL9amOh9Qy6Q",
+                    LogoutUrl = "http://www.examples.com/",
+                    AllowedScopes =
+                    {
+                        Scopes.offline_access,
+                        Scopes.email,
+                        Scopes.profile,
+                        Scopes.openid,
+                        Scopes.project_read,
+                        Scopes.user_read,
+                    }
+                    ,
+                    Event = new OpenIdConnectEvents()
+                    {
+                        OnRemoteFailure = token =>
+                        {
+                            var userClaims = token.HttpContext.User.Claims;
+                            return Task.FromResult(0);
+                        }
+                    }
+                });
         }
     }
-})
+}
 ```
-You can initialize the client like the following:
-```
+
+Initialize the client:
+
+```csharp
 using Promact.OAuth.Client.Repository.User;
 using Promact.OAuth.Client.Repository.Project;
 using Promact.OAuth.Client.Util.HttpClientWrapper;
 using Promact.OAuth.Client.Util.StringConstant;
-public class Something
+
+namespace App
 {
-    public async Task Default()
+    public class Something
     {
-        // initialization
-        IStringConstant _stringConstant = new StringConstant();
-        IHttpClientService _httpClientService = new HttpClientService(_stringConstant);
-        IUserModule _user = new UserModule(httpClientService, stringConstant);
-        _user.AccessToken = "USER_PROMACT_OAUTH_SERVER_ACCESSTOKEN";
-        var userDetails = await _user.GetPromactUserDetailByUserIdAsync("string_user_id");
-        var projectDetails = await _project.GetPromactProjectDetailsByIdAsync(INTEGER_PROJECT_ID);
+        public async Task Default()
+        {
+            // initialization
+            IStringConstant _stringConstant = new StringConstant();
+            IHttpClientService _httpClientService = new HttpClientService(_stringConstant);
+            IUserModule _user = new UserModule(httpClientService, stringConstant);
+            _user.AccessToken = "USER_PROMACT_OAUTH_SERVER_ACCESSTOKEN";
+            var userDetails = await _user.GetPromactUserDetailByUserIdAsync("string_user_id");
+            var projectDetails = await _project.GetPromactProjectDetailsByIdAsync(INTEGER_PROJECT_ID);
+        }
     }
 }
 ```
+
 # Error Handling
 Here are typical exceptions thrown from the client library:
 * AccessTokenNullableException - When access token will be null and application request and API call
@@ -75,4 +97,3 @@ Here are typical exceptions thrown from the client library:
 
 # Versioning
 Version if this package uses SemVer format: MAJOR.MINOR.PATCH. MINOR segment indicates the OAuth.Promact.Client version support.
-
