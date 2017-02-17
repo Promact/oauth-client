@@ -33,8 +33,8 @@ namespace Promact.OAuth.Client.Test
             var discovery = new DiscoveryClient(_stringConstant.PromactOAuthUrl);
             discovery.Policy.RequireHttps = false;
             _discoveryClient = discovery.GetAsync().Result;
-            _client = new TokenClient(_discoveryClient.TokenEndpoint, _stringConstant.PromactOAuthClientId, 
-                _stringConstant.PromactOAuthClientSecret);
+            _client = new TokenClient(_discoveryClient.TokenEndpoint, Environment.GetEnvironmentVariable(_stringConstant.PromactOAuthClientId), 
+                Environment.GetEnvironmentVariable(_stringConstant.PromactOAuthClientSecret));
             _userScopeResponse = _client.RequestClientCredentialsAsync(Scopes.user_read.ToString()).Result;
             _projectScopeResponse = _client.RequestClientCredentialsAsync(Scopes.project_read.ToString()).Result;
         }

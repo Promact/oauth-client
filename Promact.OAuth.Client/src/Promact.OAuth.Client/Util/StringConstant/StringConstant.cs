@@ -428,7 +428,7 @@
         {
             get
             {
-                return "OOKK4SVDYQ8XRUU";
+                return "PromactOAuthClientId";
             }
         }
 
@@ -439,7 +439,7 @@
         {
             get
             {
-                return "icbbHra92LEzIS5AHE6NuuR0Qk20Oo";
+                return "PromactOAuthClientSecret";
             }
         }
         #endregion
