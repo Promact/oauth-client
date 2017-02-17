@@ -12,13 +12,14 @@ namespace Promact.OAuth.Client.Test
     {
         #region Private Variables
         private readonly IProjectModule _projectModule;
+        
         #endregion
 
         #region Constructor
         public ProjectModuleIntegrationTest() : base()
         {
             _projectModule = serviceProvider.GetService<IProjectModule>();
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.PromactOAuthUrl;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.PromactOAuthUrl;
             _projectModule.AccessToken = _projectScopeResponse.AccessToken;
         }
         #endregion
@@ -30,7 +31,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactProjectDetailsByGroupNameAsync()
         {
-            var result = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.ProjectGroupNameForTest);
+            var result = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.ProjectGroupNameForTest);
             Assert.Equal(result.Id, 1);
         }
 
@@ -40,9 +41,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactProjectDetailsByGroupNameAsyncHttpRequestExceptionAsync()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
-            _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.ProjectGroupNameForTest));
+            _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.ProjectGroupNameForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -54,7 +55,7 @@ namespace Promact.OAuth.Client.Test
         {
             _projectModule.AccessToken = null;
             var expertedResult = await Assert.ThrowsAnyAsync<AccessTokenNullableException>(() =>
-                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
+                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.SlackGroupNameForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, expertedResult.Message);
         }
 
@@ -74,7 +75,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactAllProjectsAsyncHttpRequestExceptionAsync()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
             _projectModule.GetPromactAllProjectsAsync());
             Assert.NotNull(result.Message);
@@ -119,7 +120,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactProjectDetailsByIdAsyncHttpRequestExceptionAsync()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
             _projectModule.GetPromactProjectDetailsByIdAsync(1000));
             Assert.NotNull(result.Message);

@@ -6,6 +6,7 @@ using Promact.OAuth.Client.Util.StringConstant;
 using Promact.OAuth.Client.Util.HttpClientWrapper;
 using IdentityModel.Client;
 using Promact.OAuth.Client.DomainModel;
+using Promact.OAuth.Client.Test.StringConstantTest;
 
 namespace Promact.OAuth.Client.Test
 {
@@ -18,6 +19,7 @@ namespace Promact.OAuth.Client.Test
         public readonly TokenResponse _projectScopeResponse;
         public readonly DiscoveryResponse _discoveryClient;
         public readonly IStringConstant _stringConstant;
+        public readonly IStringConstantTest _stringConstantTest;
         #endregion
 
         #region Constructor
@@ -28,13 +30,15 @@ namespace Promact.OAuth.Client.Test
             services.AddScoped<IUserModule, UserModule>();
             services.AddScoped<IStringConstant, StringConstant>();
             services.AddScoped<IHttpClientService, HttpClientService>();
+            services.AddScoped<IStringConstantTest, StringConstantTest.StringConstantTest>();
             serviceProvider = services.BuildServiceProvider();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
-            var discovery = new DiscoveryClient(_stringConstant.PromactOAuthUrl);
+            _stringConstantTest = serviceProvider.GetService<IStringConstantTest>();
+            var discovery = new DiscoveryClient(_stringConstantTest.PromactOAuthUrl);
             discovery.Policy.RequireHttps = false;
             _discoveryClient = discovery.GetAsync().Result;
-            _client = new TokenClient(_discoveryClient.TokenEndpoint, Environment.GetEnvironmentVariable(_stringConstant.PromactOAuthClientId), 
-                Environment.GetEnvironmentVariable(_stringConstant.PromactOAuthClientSecret));
+            _client = new TokenClient(_discoveryClient.TokenEndpoint, _stringConstantTest.PromactOAuthClientId, 
+                _stringConstantTest.PromactOAuthClientSecret);
             _userScopeResponse = _client.RequestClientCredentialsAsync(Scopes.user_read.ToString()).Result;
             _projectScopeResponse = _client.RequestClientCredentialsAsync(Scopes.project_read.ToString()).Result;
         }
