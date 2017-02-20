@@ -18,7 +18,7 @@ namespace Promact.OAuth.Client.Test
         public UserModuleIntegrationTest() : base()
         {
             _userModule = serviceProvider.GetService<IUserModule>();
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.PromactOAuthUrl;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.PromactOAuthUrl;
             _userModule.AccessToken = _userScopeResponse.AccessToken;
         }
         #endregion
@@ -30,8 +30,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailByUserIdAsync(_stringConstant.AdminIdForIntegrationTest);
-            Assert.Equal(result.Email, _stringConstant.AdminEmailForTest);
+            var result = await _userModule.GetPromactUserDetailByUserIdAsync(_stringConstantTest.AdminIdForIntegrationTest);
+            Assert.Equal(result.Email, _stringConstantTest.AdminEmailForTest);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserDetailBySlackUserIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(() =>
-            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -51,9 +51,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -63,10 +63,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailBySlackUserIdAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -76,7 +76,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsync()
         {
-            var result = await _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstant.UserIdForIntegrationTest);
+            var result = await _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstantTest.UserIdForIntegrationTest);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -87,7 +87,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -97,9 +97,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -109,10 +109,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactTeamLeaderByUsersSlackIdAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetListOfPromactTeamLeaderByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -132,7 +132,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactManagementDetailsAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
             _userModule.GetListOfPromactManagementDetailsAsync());
             Assert.NotNull(result.Message);
@@ -144,7 +144,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetListOfPromactManagementDetailsAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
             _userModule.GetListOfPromactManagementDetailsAsync());
@@ -157,7 +157,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsync()
         {
-            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.UserIdForIntegrationTest);
+            var result = await _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstantTest.UserIdForIntegrationTest);
             Assert.Equal(result.CasualLeave, 2);
         }
 
@@ -168,7 +168,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserLeaveAllowedDetailsAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -178,9 +178,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -190,10 +190,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserLeaveAllowedDetailsAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserLeaveAllowedDetailsAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -203,7 +203,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsync()
         {
-            var result = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.AdminIdForIntegrationTest);
+            var result = await _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstantTest.AdminIdForIntegrationTest);
             Assert.Equal(result, true);
         }
 
@@ -214,7 +214,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserIsAdminOrNotAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -224,9 +224,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -236,10 +236,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserIsAdminOrNotAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserIsAdminOrNotAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -249,8 +249,8 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsync()
         {
-            var result = await _userModule.GetPromactUserDetailByIdAsync(_stringConstant.AdminIdForIntegrationTest);
-            Assert.Equal(result.Email, _stringConstant.AdminEmailForTest);
+            var result = await _userModule.GetPromactUserDetailByIdAsync(_stringConstantTest.AdminIdForIntegrationTest);
+            Assert.Equal(result.Email, _stringConstantTest.AdminEmailForTest);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserDetailByIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserDetailByIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -270,9 +270,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserDetailByIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -282,10 +282,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserDetailByIdAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactUserDetailByIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserDetailByIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -295,7 +295,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsync()
         {
-            var result = await _userModule.GetPromactUserRoleAsync(_stringConstant.AdminIdForIntegrationTest);
+            var result = await _userModule.GetPromactUserRoleAsync(_stringConstantTest.AdminIdForIntegrationTest);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -306,7 +306,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactUserRoleAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactUserRoleAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserRoleAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -316,9 +316,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactUserRoleAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserRoleAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -328,10 +328,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactUserRoleAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactUserRoleAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactUserRoleAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -341,7 +341,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsync()
         {
-            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.AdminIdForIntegrationTest);
+            var result = await _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstantTest.AdminIdForIntegrationTest);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -352,7 +352,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactTeamMembersDetailsByUserIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result);
         }
 
@@ -362,9 +362,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result);
         }
 
@@ -374,10 +374,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactTeamMembersDetailsByUserIdAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactTeamMembersDetailsByUserIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -388,7 +388,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsync()
         {
             _userModule.AccessToken = _projectScopeResponse.AccessToken;
-            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.ProjectGroupNameForTest);
+            var result = await _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstantTest.ProjectGroupNameForTest);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -398,9 +398,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(()=>
-            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.ProjectGroupNameForTest));
+            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstantTest.ProjectGroupNameForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -410,10 +410,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUserDetailsBySlackGroupNameAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstant.ProjectGroupNameForTest));
+            _userModule.GetPromactListOfUserDetailsBySlackGroupNameAsync(_stringConstantTest.ProjectGroupNameForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
 
@@ -423,7 +423,7 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsync()
         {
-            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.TeamLeaderIdForIntegrationTest);
+            var result = await _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstantTest.TeamLeaderIdForIntegrationTest);
             Assert.NotEqual(result.Count, 0);
         }
 
@@ -434,7 +434,7 @@ namespace Promact.OAuth.Client.Test
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsyncUserNotFoundException()
         {
             var result = await Assert.ThrowsAsync<UserNotFoundException>(()=>
-            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(result.Message, _stringConstant.UserNotFoundExceptionMessage);
         }
 
@@ -444,9 +444,9 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsyncHttpRequestException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             var result = await Assert.ThrowsAsync<HttpRequestException>(() =>
-            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.NotNull(result.Message);
         }
 
@@ -456,10 +456,10 @@ namespace Promact.OAuth.Client.Test
         [Fact]
         public async Task GetPromactListOfUsersDetailsByTeamLeaderIdAsyncAccessTokenNullableException()
         {
-            PromactBaseUrl.PromactOAuthUrl = _stringConstant.RandomUrlForTest;
+            PromactBaseUrl.PromactOAuthUrl = _stringConstantTest.RandomUrlForTest;
             _userModule.AccessToken = null;
             var result = await Assert.ThrowsAsync<AccessTokenNullableException>(() =>
-            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstant.RandomUserIdForTest));
+            _userModule.GetPromactListOfUsersDetailsByTeamLeaderIdAsync(_stringConstantTest.RandomUserIdForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, result.Message);
         }
         #endregion
