@@ -14,6 +14,7 @@ using System.Security.Authentication;
 using System.Net.Http;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Promact.OAuth.Client.Test.StringConstantTest;
 
 namespace Promact.OAuth.Client.Test
 {
@@ -23,6 +24,7 @@ namespace Promact.OAuth.Client.Test
         private readonly IProjectModule _projectModule;
         private readonly Mock<IHttpClientService> _mockHttpClientService;
         private readonly IStringConstant _stringConstant;
+        private readonly IStringConstantTest _stringConstantTest;
         User user = new User();
         List<User> userList = new List<User>();
         Project project = new Project();
@@ -35,7 +37,8 @@ namespace Promact.OAuth.Client.Test
             _projectModule = serviceProvider.GetService<IProjectModule>();
             _stringConstant = serviceProvider.GetService<IStringConstant>();
             _mockHttpClientService = serviceProvider.GetService<Mock<IHttpClientService>>();
-            _projectModule.AccessToken = _stringConstant.AccessTokenForTest;
+            _stringConstantTest = serviceProvider.GetService<IStringConstantTest>();
+            _projectModule.AccessToken = _stringConstantTest.AccessTokenForTest;
             Initialize();
         }
         #endregion
@@ -48,12 +51,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByGroupNameAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByGroupNameUrl,
-                _stringConstant.SlackGroupNameForTest);
+                _stringConstantTest.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, SerializationOfProject(),
                 HttpStatusCode.OK);
-            var expertedResult = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest);
-            Assert.Equal(_stringConstant.RandomProjectNameForTest, expertedResult.Name);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+            var expertedResult = await _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.SlackGroupNameForTest);
+            Assert.Equal(_stringConstantTest.RandomProjectNameForTest, expertedResult.Name);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -63,12 +66,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByGroupNameAsyncForAuthenticationExceptionAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByGroupNameUrl,
-                _stringConstant.SlackGroupNameForTest);
+                _stringConstantTest.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expertedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-                 _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
+                 _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.SlackGroupNameForTest));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expertedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -78,12 +81,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByGroupNameAsyncForHttpRequestExceptionAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByGroupNameUrl,
-                _stringConstant.SlackGroupNameForTest);
+                _stringConstantTest.SlackGroupNameForTest);
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expertedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
-            Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expertedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.SlackGroupNameForTest));
+            Assert.Equal(_stringConstantTest.HttpRequestExceptionErrorMessageForTest, expertedResult.Message);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -94,7 +97,7 @@ namespace Promact.OAuth.Client.Test
         {
             _projectModule.AccessToken = null;
             var expertedResult = await Assert.ThrowsAnyAsync<AccessTokenNullableException>(() =>
-                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstant.SlackGroupNameForTest));
+                _projectModule.GetPromactProjectDetailsByGroupNameAsync(_stringConstantTest.SlackGroupNameForTest));
             Assert.Equal(_stringConstant.AccessTokenNullableExceptionMessage, expertedResult.Message);
         }
 
@@ -107,7 +110,7 @@ namespace Promact.OAuth.Client.Test
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, SerializationOfListOfProject(), HttpStatusCode.OK);
             var expected = await _projectModule.GetPromactAllProjectsAsync();
             Assert.Equal(true, expected.Any());
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
         }
 
@@ -121,7 +124,7 @@ namespace Promact.OAuth.Client.Test
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
                 _projectModule.GetPromactAllProjectsAsync());
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
         }
 
@@ -134,8 +137,8 @@ namespace Promact.OAuth.Client.Test
             MockingHttpClientService(_stringConstant.GetPromactAllProjectsUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
                 _projectModule.GetPromactAllProjectsAsync());
-            Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
+            Assert.Equal(_stringConstantTest.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
         }
 
@@ -149,7 +152,7 @@ namespace Promact.OAuth.Client.Test
             var expectedResult = await Assert.ThrowsAnyAsync<ProjectNotFoundException>(() =>
                 _projectModule.GetPromactAllProjectsAsync());
             Assert.Equal(_stringConstant.ProjectNotFoundException, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest,
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest,
                 _stringConstant.GetPromactAllProjectsUrl), Times.Once);
         }
 
@@ -172,11 +175,11 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByIdAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
-                Convert.ToInt32(_stringConstant.ProjectIdForTest));
+                Convert.ToInt32(_stringConstantTest.ProjectIdForTest));
             MockingHttpClientService(contentUrl, SerializationOfProject(), HttpStatusCode.OK);
-            var expectedResult = await _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest));
-            Assert.Equal(_stringConstant.UserIdForTest, expectedResult.TeamLeaderId);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+            var expectedResult = await _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstantTest.ProjectIdForTest));
+            Assert.Equal(_stringConstantTest.UserIdForTest, expectedResult.TeamLeaderId);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -186,12 +189,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByIdAsyncForAuthenticationExceptionAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
-                Convert.ToInt32(_stringConstant.ProjectIdForTest));
+                Convert.ToInt32(_stringConstantTest.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.Forbidden);
             var expectedResult = await Assert.ThrowsAnyAsync<AuthenticationException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstantTest.ProjectIdForTest)));
             Assert.Equal(_stringConstant.AccessTokenNotMatchedException, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -201,12 +204,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByIdAsyncForHttpRequestExceptionAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
-                Convert.ToInt32(_stringConstant.ProjectIdForTest));
+                Convert.ToInt32(_stringConstantTest.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.GatewayTimeout);
             var expectedResult = await Assert.ThrowsAnyAsync<HttpRequestException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
-            Assert.Equal(_stringConstant.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstantTest.ProjectIdForTest)));
+            Assert.Equal(_stringConstantTest.HttpRequestExceptionErrorMessageForTest, expectedResult.Message);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -216,12 +219,12 @@ namespace Promact.OAuth.Client.Test
         public async Task TestGetPromactProjectDetailsByIdAsyncForProjectNotFoundExceptionAsync()
         {
             var contentUrl = string.Format(_stringConstant.GetPromactProjectDetailsByIdUrl,
-                Convert.ToInt32(_stringConstant.ProjectIdForTest));
+                Convert.ToInt32(_stringConstantTest.ProjectIdForTest));
             MockingHttpClientService(contentUrl, null, HttpStatusCode.BadRequest);
             var expectedResult = await Assert.ThrowsAnyAsync<ProjectNotFoundException>(() =>
-                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstant.ProjectIdForTest)));
+                _projectModule.GetPromactProjectDetailsByIdAsync(Convert.ToInt32(_stringConstantTest.ProjectIdForTest)));
             Assert.Equal(_stringConstant.ProjectNotFoundException, expectedResult.Message);
-            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl), Times.Once);
+            _mockHttpClientService.Verify(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl), Times.Once);
         }
 
         /// <summary>
@@ -250,7 +253,7 @@ namespace Promact.OAuth.Client.Test
             requestAndResponse.ResponseContent = expectedResult;
             requestAndResponse.Status = expectedStatus;
             var result = Task.FromResult(requestAndResponse);
-            _mockHttpClientService.Setup(x => x.GetAsync(_stringConstant.AccessTokenForTest, contentUrl)).Returns(result);
+            _mockHttpClientService.Setup(x => x.GetAsync(_stringConstantTest.AccessTokenForTest, contentUrl)).Returns(result);
         }
         #endregion
 
@@ -260,22 +263,22 @@ namespace Promact.OAuth.Client.Test
         /// </summary>
         public void Initialize()
         {
-            user.Email = _stringConstant.EmailRandomValueForTest;
-            user.Id = _stringConstant.UserIdForTest;
+            user.Email = _stringConstantTest.EmailRandomValueForTest;
+            user.Id = _stringConstantTest.UserIdForTest;
             user.IsActive = true;
             user.NumberOfCasualLeave = 9;
             user.NumberOfSickLeave = 4;
-            user.UserName = _stringConstant.EmailRandomValueForTest;
+            user.UserName = _stringConstantTest.EmailRandomValueForTest;
             userList.Add(user);
             project.CreatedDate = DateTime.UtcNow;
-            project.CreatedBy = _stringConstant.UserIdForTest;
+            project.CreatedBy = _stringConstantTest.UserIdForTest;
             project.Id = 1;
             project.IsActive = true;
-            project.Name = _stringConstant.RandomProjectNameForTest;
-            project.SlackChannelName = _stringConstant.RandomProjectNameForTest;
+            project.Name = _stringConstantTest.RandomProjectNameForTest;
+            project.SlackChannelName = _stringConstantTest.RandomProjectNameForTest;
             project.TeamLeader = user;
-            project.TeamLeaderId = _stringConstant.UserIdForTest;
-            project.UpdatedBy = _stringConstant.UserIdForTest;
+            project.TeamLeaderId = _stringConstantTest.UserIdForTest;
+            project.UpdatedBy = _stringConstantTest.UserIdForTest;
             project.UpdatedDate = DateTime.UtcNow;
             project.ApplicationUsers = userList;
             projectList.Add(project);

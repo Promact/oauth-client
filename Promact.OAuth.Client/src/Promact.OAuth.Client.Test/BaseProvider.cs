@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Promact.OAuth.Client.Repository.Project;
 using Promact.OAuth.Client.Repository.User;
 using Promact.OAuth.Client.Util.StringConstant;
 using Promact.OAuth.Client.Util.HttpClientWrapper;
 using Moq;
+using Promact.OAuth.Client.Test.StringConstantTest;
 
 namespace Promact.OAuth.Client.Test
 {
@@ -21,6 +19,7 @@ namespace Promact.OAuth.Client.Test
             services.AddScoped<IProjectModule, ProjectModule>();
             services.AddScoped<IUserModule, UserModule>();
             services.AddScoped<IStringConstant, StringConstant>();
+            services.AddScoped<IStringConstantTest, StringConstantTest.StringConstantTest>();
             var httpClientMock = new Mock<IHttpClientService>();
             var httpClientMockObject = httpClientMock.Object;
             services.AddScoped(x => httpClientMock);
